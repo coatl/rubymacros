@@ -534,7 +534,7 @@ class Macro
         if old_modpath
           session[:@modpath]=old_modpath
         else
-          session[:@modpath].pop unwind
+          unwind.times{ session[:@modpath].pop }
         end
         session[:@namespace_type]=old_namespace_type
         session[:@modpath_unsure]=old_unsure
