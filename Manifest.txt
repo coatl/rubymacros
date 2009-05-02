@@ -20,3 +20,6 @@ example/simple.rb
 example/simple_wrap.rb
 example/with.rb
 example/with_wrap.rb
+example/linenum.rb
+example/linenum_user.rb
+example/linenum_wrap.rb
