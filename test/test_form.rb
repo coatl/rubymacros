@@ -21,7 +21,7 @@ require "macro"
 require 'test/unit'
 require 'rubygems'
 require 'rubylexer'
-require "test/code/testcases" #from rubylexer
+require "rubylexer/test/testcases" #from rubylexer
 require 'pp'
 
 
