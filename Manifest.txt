@@ -1,6 +1,7 @@
 COPYING.LGPL
 Manifest.txt
 README.txt
+History.txt
 rubymacros.vpj
 Rakefile
 test/test_form.rb
