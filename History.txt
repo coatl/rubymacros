@@ -1,6 +1,16 @@
+=== 0.1.2 / 2009-04-26
+
+* 7 minor enhancements
+  * lots of nice comments added, thanks to Paul Brannan and Tatsuji Kawai
+  * Paul fixed the weird rdoc failure too!
+  * incorrect warning removed
+  * Value changed to Expr in parse rules
+  * hack to get 'rake test' to stay in 1 process (to keep netbeans happy)
+  * in test_form.rb, don't test deep_copy on nil forms
+  * all files should be world-readable now
+
 === 0.1.0 / 2008-10-24
 
 * 1 major enhancement
-
   * Birthday!
 
