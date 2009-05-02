@@ -674,10 +674,10 @@ class Macro
       [
         -[KW('macro'), KW(beginsendsmatcher).~.*, KW('end'), KW(/^(do|\{)$/).~.la]>>MisparsedNode
       ]+super+[
-        -[Op('^@'), Value, LowerOp]>>FormParameterNode,
+        -[Op('^@'), Expr, LowerOp]>>FormParameterNode,
         -[Op(':@'), (ParenedNode&-{:size=>1})|(VarLikeNode&-{:ident=>"nil"})]>>FormNode,
         -['macro', CallSiteNode, KW(';'),
-           Value.-, RescueNode.*, ElseNode.-, EnsureNode.-,
+           Expr.-, RescueNode.*, ElseNode.-, EnsureNode.-,
           'end'
          ]>>MacroNode,
       ]
