@@ -30,7 +30,7 @@ end
      _.description=desc
      _.summary=desc[/\A[^.]+\./]
 #     _.spec_extras={:bindir=>''}
-     _.rdoc_pattern=/\A(README\.txt|lib\/.*\.rb)\Z/
+#     _.rdoc_pattern=/\A(README\.txt|lib\/.*\.rb)\Z/
      _.remote_rdoc_dir="/"
    end
 
