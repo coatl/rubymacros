@@ -25,7 +25,7 @@ end
      _.author = "Caleb Clausen"
      _.email = "rubymacros-owner @at@ inforadical .dot. net"
      _.url = ["http://rubymacros.rubyforge.org/", "http://rubyforge.org/projects/rubymacros/"]
-     _.extra_deps << ['redparse', '>= 0.8.0']
+     _.extra_deps << ['redparse', '>= 0.8.1']
      _.test_globs=["test/*"]
      _.description=desc
      _.summary=desc[/\A[^.]+\./]
