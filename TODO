@@ -1,0 +1,35 @@
+macro options
+  immediate vs delayed
+  'protected' vs unprotected macros -- params and result surrounded by ()
+  precedence for operator macros
+  hygienic vs unhygienic
+
+static selector namespaces?
+
+other types of macro:
+replacement by example -- block style
+replacement by example -- form with matchers in form escapes
+straight out Reg::Transform expression as macro
+operator macros
+lmacros
+
+parser extensions to make the language more macro-friendly:
+dynamically named callsites:  rcvr.( a<b ? :foo : :bar )(args)
+dynamically named constant lookups: Parent::(whatever)
+arbitrary expression in block slot of callsite: 
+          foo.bar(args)block
+          foo.bar(args)bl.ock
+          foo.bar(args)(...whatever)
+(but don't allow funny characters here (unless parenthesised))
+block literals. empty block is {||} 
+  else block and hash disambiguated by presence of => or :
+dynamic method names?: def (expr returning name); ... end
+
+
+cool macros to write:
+,, -- evaluates left and right sides then returns val of LEFT
+.? -- call a method if rcvr respond_to? it
+{<..>} -- ordered hash
+trace_subexpressions() -- print val of each subexpression
+better assert
+iter
