@@ -655,12 +655,11 @@ class Macro
         result+=args.map{|arg| arg.unparse o}.join','
         result+=")"
       end
-      result+="\n"
-      result+=body.unparse(o) if body
+      result+=unparse_nl(body,o)+body.unparse(o) if body
       result+=rescues.map{|resc| resc.unparse o}.to_s
-      result+="else "+else_.unparse( o )+"\n" if else_
-      result+="ensure "+ensure_.unparse( o )+"\n" if ensure_
-      result+="\nend"
+      result+=unparse_nl(else_,o)+"else "+else_.unparse( o )+"\n" if else_
+      result+=unparse_nl(ensure_,o)+"ensure "+ensure_.unparse( o )+"\n" if ensure_
+      result+=";end"
       return result
     end
   end
