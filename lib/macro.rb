@@ -168,7 +168,7 @@ class Macro
         result={}
         seen[obj.__id__]=result
         obj.each_pair{|k,v| 
-          result[copy k]=copy v,seen
+          result[copy( k )]=copy v,seen
         }
         result
       when Module,Proc,IO,Method,
@@ -228,7 +228,7 @@ class Macro
             [unexpanded,  ConstantNode[nil,"Macro","GLOBALS"], 
              HashLiteralNode[LiteralNode[:@expand_in_defs], VarLikeNode["true"]], Macro.quote(filename)],
           nil,nil]
-      return CallNode[expanded,evalname,[Macro.quote filename],nil,nil]
+      return CallNode[expanded,evalname,[Macro.quote( filename )],nil,nil]
   end
 
   class Node
