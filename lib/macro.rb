@@ -480,8 +480,8 @@ class Macro
 
       # and keep recursing, no matter what, by all means!!
       newnode=Macro.expand newnode,macros,session #just do it here
-      return newnode,false                      #and not in caller
-      
+      newnode=OneLineParenedNode[newnode] #disable newlines in macro text
+      return newnode,false                        #and not in caller
      end
    end
 
@@ -661,6 +661,17 @@ class Macro
       result+=unparse_nl(ensure_,o)+"ensure "+ensure_.unparse( o )+"\n" if ensure_
       result+=";end"
       return result
+    end
+  end
+
+  class OneLineParenedNode < ParenedNode
+    #hacky way to get unparser to not emit newlines in most cases
+    def unparse(o=default_parse_options)
+      old_linenum=o[:linenum]
+      o[:linenum]=2**128
+      super(o)
+      diff=o[:linenum]-2**128
+      o[:linenum]=old_linenum+diff
     end
   end
 
