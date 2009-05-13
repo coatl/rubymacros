@@ -257,7 +257,7 @@ class Macro
 
       expanded_tree=self   #Macro.expand(deep_copy,::Macro::GLOBALS)
 
-      unparsed=expanded_tree.unparse({})
+      unparsed=expanded_tree.unparse
       #puts unparsed
       ::Kernel.eval unparsed, binding||::Object.new_binding,file||'(eval)',line||1
     end
@@ -286,7 +286,7 @@ class Macro
         true
       }
       
-      unparsed=expanded_tree.unparse({})
+      unparsed=expanded_tree.unparse
       #p expanded_tree
       #puts unparsed
       Tempfile.open("macroexpanded_"+name.gsub("/","__")){|tf|
@@ -610,7 +610,7 @@ class Macro
          carets+=1
        end
        if carets==nest
-         return node.unparse({})
+         return node.unparse
        else
          return super
        end
@@ -646,7 +646,7 @@ class Macro
     #
     # +o+:: a list of options for unparse
     #
-    def unparse o
+    def unparse o=default_unparse_options
       result="macro "
       result+=receiver.unparse(o)+'.' if receiver
       result+=name

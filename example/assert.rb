@@ -4,8 +4,8 @@ if $Debug
   macro assert(cond)
     if RedParse::OpNode===cond and /\A[=!]=\Z/===cond.op
       left,op,right=*cond
-      :(fail 'expected '+^left.unparse({})+"(==#{^left}) to be "+
-             ^op+" "+^right.unparse({})+"(==#{^right})" unless ^cond)    
+      :(fail 'expected '+^left.unparse+"(==#{^left}) to be "+
+             ^op+" "+^right.unparse+"(==#{^right})" unless ^cond)    
     else
       :(fail "expected #{:(^^cond)}, but was not true" unless ^cond)
     end

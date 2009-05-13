@@ -110,7 +110,7 @@ class Macro
     #
     # +o+:: a list of options for unparse
     #
-    def unparse o
+    def unparse o=default_unparse_options
       ":("+text.unparse(o)+")"
     end
 
@@ -193,7 +193,7 @@ class Macro
     #
     # +o+:: a list of options for unparse
     #
-    def unparse o
+    def unparse o=default_unparse_options
       "^"+val.unparse(o)      
     end
 
@@ -205,7 +205,7 @@ class Macro
     end
 
     def inspect
-      val.unparse({})
+      val.unparse
     end
   end
 end
