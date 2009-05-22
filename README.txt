@@ -1,6 +1,6 @@
 = RubyMacros
-* http://rubymacros.rubyforge.org
 * http://rubyforge.org/projects/rubymacros
+* http://github.com/coatl/rubymacros
 
 == DESCRIPTION:
 RubyMacros is a lisp-like macro pre-processor for Ruby. More than just a 
@@ -32,7 +32,6 @@ a proof of concept or toy at this point:
  * some ruby syntax is unsupported in files using macros
  * files using macros must be loaded via Macro.require;
  * Kernel#require will not recognize macros
- * RedParse Node tree format will be changing slightly
  * macros cannot be scoped
  * no variable (or other) hygiene
 
@@ -95,10 +94,12 @@ macro callsite in the parsetree which contained it.
 
 
 == Known Problems
- * need to insert extra parens around form params and macro texts
+ * need to insert extra parens around form params
  * a variety of parsetrees are kept around forever for no good reason
- * a few warnings and disabled tests in unit tests
- * however, huge rediculous piles of RedParse warnings when running 'rake test'
+ * a few disabled tests in unit tests
+ * =begin...=end in forms causes minor unit test failures
+ * unterminated string in forms is not handled well
+
 
 == License:
 Copyright (C) 2008  Caleb Clausen
