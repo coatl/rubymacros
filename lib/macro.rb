@@ -529,7 +529,14 @@ class Macro
         end
         session[:@modpath].push *name
 
-          map!{|n| Macro.expand(n,macros,session) if n}
+        map!{|n| 
+            case n
+            when nil
+            when Node; Macro.expand(n,macros,session)
+            when Array; n.map!{|nn| Macro.expand(nn,macros,session) }
+            else fail
+            end
+        }
 
         if old_modpath
           session[:@modpath]=old_modpath
