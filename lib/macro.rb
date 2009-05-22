@@ -676,9 +676,10 @@ class Macro
     def unparse(o=default_parse_options)
       old_linenum=o[:linenum]
       o[:linenum]=2**128
-      super(o)
+      result=super(o)
       diff=o[:linenum]-2**128
       o[:linenum]=old_linenum+diff
+      return result
     end
   end
 
