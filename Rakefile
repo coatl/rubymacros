@@ -2,7 +2,6 @@
 # Distributed under the terms of Ruby's license.
 require 'rubygems'
 require 'hoe'
-require 'lib/macro/version.rb'
  
 
 if $*==["test"]
@@ -15,6 +14,8 @@ if $*==["test"]
   Test::Unit::AutoRunner.run
   exit
 end
+
+require 'lib/macro/version.rb'
 
    readme=open("README.txt")
    readme.readline("\n== DESCRIPTION:")
