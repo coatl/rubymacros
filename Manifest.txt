@@ -2,7 +2,6 @@ COPYING.LGPL
 Manifest.txt
 README.txt
 History.txt
-rubymacros.vpj
 Rakefile
 test/test_form.rb
 test/test_expand.rb
@@ -23,3 +22,7 @@ example/with_wrap.rb
 example/linenum.rb
 example/linenum_user.rb
 example/linenum_wrap.rb
+example/andand_wrap.rb
+lib/weakkeyhash.rb
+test/test_all.rb
+TODO
