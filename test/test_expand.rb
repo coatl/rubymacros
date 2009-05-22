@@ -30,10 +30,10 @@ class ExpandTest < Test::Unit::TestCase
       RedParse::LiteralNode[2]], nil, nil]], nil, nil]
     ttt.macro_expand(Macro::GLOBALS,{})
 
-    assert_equal ttt.unparse,'p(1+2)'
+    assert_equal ttt.unparse,'p((1+2))'
 
     ttt=Macro.parse "p(simple(1,2))"
     ttt.macro_expand(Macro::GLOBALS,{})
-    assert_equal ttt.unparse,'p(1+2)'
+    assert_equal ttt.unparse,'p((1+2))'
   end
 end
