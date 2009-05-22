@@ -24,7 +24,7 @@ require 'redparse'
 require "macro/form"
 require "macro/version"
 
-warn "need to insert extra parens around form params and macro texts"
+warn "need to insert extra parens around form params"
 
 class Object # :nodoc:
   #as close as I can get to an empty binding (used below in Macro.eval)
