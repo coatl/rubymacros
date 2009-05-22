@@ -209,9 +209,9 @@ class Macro
         modpath=ConstantNode[nil,*session[:@modpath]] 
         modpath.push "Object" unless modpath.size>1
         if session[:@namespace_type]==ModuleNode
-          node=ModuleNode[modpath,node]    #:(module ^modpath; ^node; end)
+          node=ModuleNode[modpath,node,[],nil,nil]    #:(module ^modpath; ^node; end)
         else
-          node=ClassNode[modpath,nil,node] #:(class ^modpath; ^node; end)
+          node=ClassNode[modpath,nil,node,[],nil,nil] #:(class ^modpath; ^node; end)
         end 
       end
 
