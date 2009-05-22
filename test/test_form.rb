@@ -37,7 +37,7 @@ class FormTest< Test::Unit::TestCase
       end
       next
     end
-    define_method "test_case_#{i}" do
+    define_method "test_form_around_#{x.gsub(/[^ -~]/){|ch| "\\x"+ch[0].to_s(16)}}" do
       check x
     end
   }
