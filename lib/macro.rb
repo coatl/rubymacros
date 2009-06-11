@@ -204,6 +204,8 @@ class Macro
   # +session+:: the context in which this macro is being processed
   #
   def Macro.postpone node,session
+      return node #disable postponement
+
       filename=session[:filename]
       unless session[:@modpath_unsure]
         modpath=ConstantNode[nil,*session[:@modpath]] 
@@ -409,8 +411,19 @@ class Macro
         node[0]=ParenedNode[ConstantNode[nil,"Object"]] #all macros are global for now... til we get scoped macros
         #sets receiver
 
+        #disable postponement (delayed macros) ... i think they're not necessary
+        expand=proc{|x| Node===x ? Macro.expand(x,macros,session) : x}
+        node.receiver= expand[node.receiver]
+        node.args.map! &expand if node.args
+        node.body= expand[node.body]
+        node.rescues.map! &expand if node.rescues
+        node.ensure_= expand[node.ensure_]
+        node.else_= expand[node.else_]
+        node.eval
+        macros[name.to_sym]=::Object.method("macro_"+name)
+        return node,false
+
         #node.eval #no, not here....
-#        macros[name.to_sym]=self.name
 
         newnode=Macro.postpone node, session
 
@@ -487,7 +500,7 @@ class Macro
 
    #postpone macro expansion in methods til method defn is executed
    class MethodNode
-     def macro_expand(macros,session)
+     def old_macro_expand(macros,session)
        if session[:@expand_in_defs]
          session[:@expand_in_defs]=false
            expand=proc{|x| Node===x ? Macro.expand(x,macros,session) : x}
@@ -502,6 +515,16 @@ class Macro
        else
          return Macro.postpone(self,session),false
        end
+     end
+     def macro_expand(macros,session)
+       expand=proc{|x| Node===x ? Macro.expand(x,macros,session) : x}
+       self.receiver= expand[receiver]
+       args.map! &expand if args
+       self.body= expand[body]
+       rescues.map! &expand if rescues
+       self.ensure_= expand[ensure_]
+       self.else_= expand[else_]
+       return self,false
      end
    end
 
