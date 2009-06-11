@@ -119,15 +119,20 @@ class Macro
       ":("+text.unparse(o)+")"
     end
 
-    # Called when the form is evaluated to ensure that the abstract form
-    # in the parse tree is a concrete form that can be modified (makes a
+    # Called when the form is evaluated to convert the abstract form
+    # of the parse tree into a concrete form that can be modified (makes a
     # copy of the form).
     #
     # +transform+:: the transform to use in the deep copy
     #
     def reify transform
       transform.each_pair{|k,v|
-        transform[k]=Macro.quote(v) unless Node===v or VarNameToken===v
+        case v
+        when Node; next
+        when Symbol; v=CallNode[nil,v.to_s]
+        else v=Macro.quote v
+        end
+        transform[k]=v
       }
       deep_copy(transform)
     end
