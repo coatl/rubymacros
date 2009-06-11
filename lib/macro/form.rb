@@ -48,6 +48,11 @@ class Macro
       rebuild_transform
     end
 
+    def initialize_ivars
+      rebuild_transform
+      super
+    end
+
     # Initialize the transform and create all the form escapes that are
     # used in this form
     def rebuild_transform
