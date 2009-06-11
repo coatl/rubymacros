@@ -499,6 +499,7 @@ class Macro
       #subi ? parent[i][subi]=newnode : parent[i]=newnode
 
       # and keep recursing, no matter what, by all means!!
+      newnode||=NopNode.new
       newnode=Macro.expand newnode,macros,session #just do it here
       newnode=OneLineParenedNode[newnode] #disable newlines in macro text
       return newnode,false                        #and not in caller
