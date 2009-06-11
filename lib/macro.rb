@@ -484,11 +484,18 @@ class Macro
       #macro=macros[name.to_sym]=::Object.method(macro) if String===macro
       #refuse macro calls with receivers, blocks, varargs, or &args: not supported yet
       fail "macro receivers not supported yet" if receiver
-      fail "macro blocks not supported yet" if block or blockparams
-      fail "macro block args not supported yet" if UnOpNode===args.last and args.last.ident=="&@"
+      fail "macro blocky args not supported yet" if UnOpNode===args.last and args.last.ident=="&@"
       fail "macro varargs calls not supported yet" if UnaryStarNode===args.last
       fail if args.class!=Array
-      newnode=macro.call *args
+      if block
+        newnode=macro.call *args do |*bparams|
+                  #warning: scoping rules for lvars in blocks not enforced here
+                  #(rather serious violation of variable hygiene)
+                  AssignNode[MultiAssign[blockparams],'=',bparams]+block 
+                end
+      else
+        newnode=macro.call *args
+      end
       #subi ? parent[i][subi]=newnode : parent[i]=newnode
 
       # and keep recursing, no matter what, by all means!!
@@ -664,6 +671,23 @@ class Macro
           fail "unrecognized method header: #{header}"
         end
         @data=replace [receiver,header,args,body,rescues,else_,ensure_]
+
+        #quote parameters to yield within macro
+        walk{|cntr,i,subi,item|
+          case item
+          when KWCallNode;
+            if item.name=="yield" 
+              raise ArgumentError if item.block or item.blockparams
+              if item.params
+                raise ArgumentError if UnAmpNode===item.params.last
+                item.params.map!{|param| FormNode.new(nil,ParenedNode[param]) }
+              end
+              false
+            else true
+            end
+          else true
+          end
+        }
     end
 
     alias else_ elses
