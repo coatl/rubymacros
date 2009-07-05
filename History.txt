@@ -1,3 +1,15 @@
+=== 0.1.5 / 2009-07-04
+* 4 Major Enhancements:
+  * all macros are now immediate, not delayed
+  * macro calls can accept blocks
+  * macro calls need not be inside a method
+  * form escapes can stand in for a method name in callsites
+* 4 Minor Enhancements:
+  * macros can expand to nop by returning nil
+  * form escapes whose value is a symbol become callsites now
+  * forms can now be catenated together with + in the obvious way
+  * HashLiteralNode can be treated somewhat like a real hash, using #get
+
 === 0.1.4 / 2009-05-21
 * 1 Major Enhancement:
   * line numbers are now preserved in preprocessed code; 
