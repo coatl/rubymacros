@@ -484,9 +484,14 @@ class Macro
       fail if args.class!=Array
       if block
         newnode=macro.call *args do |*bparams|
-                  #warning: scoping rules for lvars in blocks not enforced here
-                  #(rather serious violation of variable hygiene)
-                  AssignNode[MultiAssign[blockparams],'=',bparams]+block 
+                  if !blockparams
+                    block
+                  else
+                    bparams=KWCallNode["nil"] if bparams.empty?
+                    #warning: scoping rules for lvars in blocks not enforced here
+                    #(rather serious violation of variable hygiene)
+                    ParenedNode[ AssignNode[MultiAssign[*blockparams],'=',bparams]+block ]
+                  end
                 end
       else
         newnode=macro.call *args
