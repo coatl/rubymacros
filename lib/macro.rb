@@ -653,6 +653,10 @@ class Macro
          return super
        end
      end
+
+     def image
+        "^"+first.image
+     end
    end
 
   class MacroNode < ValueNode
