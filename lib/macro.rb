@@ -21,8 +21,6 @@ require 'redparse'
 require "macro/form"
 require "macro/version"
 
-warn "need to insert extra parens around form params"
-
 class Object # :nodoc:
   #as close as I can get to an empty binding (used below in Macro.eval)
   def Object.new_binding() # :nodoc:
