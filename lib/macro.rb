@@ -752,6 +752,7 @@ class Macro
            Expr.-, RescueNode.*, ElseNode.-, EnsureNode.-,
           'end'
          ]>>MacroNode,
+        -[ParenedNode, '(', Expr.-, ')', BlockNode.-, KW('do').~.la]>>CallNode,
       ]
     end
     def wants_semi_context
