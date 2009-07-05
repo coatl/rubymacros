@@ -16,9 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
-#$:.unshift "../redparse/lib"
-#warn "$: hacked up to find latest redparse"
-
 require 'rubygems'
 require 'redparse'
 require "macro/form"
