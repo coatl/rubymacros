@@ -677,6 +677,7 @@ class Macro
         end
         @data=replace [receiver,header,args,body,rescues,else_,ensure_]
 
+=begin hmm, maybe not a good idea....
         #quote parameters to yield within macro
         walk{|cntr,i,subi,item|
           case item
@@ -693,6 +694,7 @@ class Macro
           else true
           end
         }
+=end
     end
 
     alias else_ elses
