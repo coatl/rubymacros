@@ -19,8 +19,7 @@ require 'lib/macro/version.rb'
 
    readme=open("README.txt")
    readme.readline("\n== DESCRIPTION:")
-   readme.readline("\n\n")
-   desc=readme.readline("\n\n")
+   desc=readme.readline("\n==")
  
    hoe=Hoe.new("rubymacros", Macro::VERSION) do |_|
      _.author = "Caleb Clausen"
