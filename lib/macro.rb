@@ -587,7 +587,14 @@ class Macro
      def macro_expand(macros,session)
         old_unsure=session[:@modpath_unsure]
         session[:@modpath_unsure]=true
-        map!{|n| Macro.expand(n,macros,session) if n}
+        map!{|n| 
+            case n
+            when nil
+            when Node; Macro.expand(n,macros,session)
+            when Array; n.map!{|nn| Macro.expand(nn,macros,session) }
+            else fail
+            end
+        }
         session[:@modpath_unsure]=old_unsure
 
         return nil,false #halt further recursion: already done
