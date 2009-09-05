@@ -36,6 +36,7 @@ class Macro
       # Certain node types need to be quoted
       if RedParse::VarLikeNode===text 
         @transform=HashLiteralNode[]
+        text.startline=text.endline=0
         super text
         return
       end
@@ -63,6 +64,7 @@ class Macro
       walkers=proc{|rcvr,wraplayers| #curry
         rcvr.walk{|*args| 
          node=args.last
+         node.startline=node.endline=0 if node.respond_to? :startline
          case node
          when FormEscapeNode
            target=node.wraplevel
