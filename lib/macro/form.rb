@@ -209,10 +209,6 @@ class Macro
       return val.wraplevel+1 if FormEscapeNode===val
       return 1
     end
-
-    def inspect
-      val.unparse
-    end
   end
   FormParameterNode=FormEscapeNode
 end
