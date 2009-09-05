@@ -132,6 +132,12 @@ class Macro
         obj=obj.gsub(/['\\]/){|ch| '\\'+ch }
         StringNode[obj,{:@open=>"'", :@close=>"'"}]
 
+      when Reg::Formula
+        Reg::Deferred.defang! obj
+
+      when Reg::Reg
+        obj
+
       # TODO: The following is dead code and should be removed
       else 
         #result=:(::Macro::QuotedStore[^QuotedStore.size])
