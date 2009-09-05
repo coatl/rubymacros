@@ -64,7 +64,7 @@ class Macro
         rcvr.walk{|*args| 
          node=args.last
          case node
-         when FormParameterNode
+         when FormEscapeNode
            target=node.wraplevel
            fail if wraplayers > target
            if wraplayers==target #skip this parameter if it doesn't have enough wrappers
@@ -87,7 +87,7 @@ class Macro
 
       @parameters.each{|orig_escd| 
         escd=orig_escd
-        escd=escd.val while FormParameterNode===escd
+        escd=escd.val while FormEscapeNode===escd
         @transform.push LiteralNode[orig_escd.__id__], escd
       }    
 
@@ -183,7 +183,7 @@ class Macro
 
 
   # The syntax node for a form escape
-  class FormParameterNode < RedParse::ValueNode
+  class FormEscapeNode < RedParse::ValueNode
     param_names :val
 
     # Called by the parser to create a new form parameter node.
@@ -206,7 +206,7 @@ class Macro
     # The number of carats (^) that occur in the escape.  Note that
     # this method is recursive.
     def wraplevel
-      return val.wraplevel+1 if FormParameterNode===val
+      return val.wraplevel+1 if FormEscapeNode===val
       return 1
     end
 
@@ -214,4 +214,5 @@ class Macro
       val.unparse
     end
   end
+  FormParameterNode=FormEscapeNode
 end
