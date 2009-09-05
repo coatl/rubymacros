@@ -503,11 +503,11 @@ class Macro
       newnode=Macro.expand newnode,macros,session #just do it here
       newnode=OneLineParenedNode[newnode] #disable newlines in macro text
       return newnode,false                        #and not in caller
-     end
-   end
+    end
+  end
 
-   #postpone macro expansion in methods til method defn is executed
-   class MethodNode
+  #postpone macro expansion in methods til method defn is executed
+  class MethodNode
      def old_macro_expand(macros,session)
        if session[:@expand_in_defs]
          session[:@expand_in_defs]=false
@@ -534,10 +534,10 @@ class Macro
        self.else_= expand[else_]
        return self,false
      end
-   end
+  end
 
-   #disable macro definitions within classes and modules
-   module DisableMacros
+  #disable macro definitions within classes and modules
+  module DisableMacros
      def macro_expand(macros,session)
         old_unsure=session[:@modpath_unsure]
         old_namespace_type=session[:@namespace_type]
@@ -579,11 +579,11 @@ class Macro
 
         return nil,false #halt further recursion: already done
      end
-   end
-   class ModuleNode; include DisableMacros; end
-   class ClassNode; include DisableMacros; end
+  end
+  class ModuleNode; include DisableMacros; end
+  class ClassNode; include DisableMacros; end
 
-   class MetaClassNode
+  class MetaClassNode
      def macro_expand(macros,session)
         old_unsure=session[:@modpath_unsure]
         session[:@modpath_unsure]=true
@@ -599,12 +599,12 @@ class Macro
 
         return nil,false #halt further recursion: already done
      end
-   end
+  end
 
-   #postpone macro expansion (and definition) in forms until they are evaled
-   #(or returned from a macro)
-   #but not in form parameters
-   class FormNode < ValueNode
+  #postpone macro expansion (and definition) in forms until they are evaled
+  #(or returned from a macro)
+  #but not in form parameters
+  class FormNode < ValueNode
      def macro_expand(macros,session)
        #return text.to_sexp({})
    
@@ -639,9 +639,9 @@ class Macro
        end
        return result
      end
-   end
+  end
 
-   class FormParameterNode<ValueNode
+  class FormEscapeNode<ValueNode
      # Convert this node to an S-expression
      #
      # +session+:: the context in which this macro is being processed
@@ -664,7 +664,7 @@ class Macro
      def image
         "^"+first.image
      end
-   end
+  end
 
   class MacroNode < ValueNode
     param_names(:defword_,:receiver,:name,:args,:semi_,:body,:rescues,:elses,:ensures,:endword_)
