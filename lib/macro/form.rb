@@ -34,7 +34,8 @@ class Macro
     #
     def initialize(colon,text)
       # Certain node types need to be quoted
-      if RedParse::VarLikeNode===text 
+      # (or rather, not unquoted)
+      if RedParse::VarLikeNode===text
         @transform=HashLiteralNode[]
         text.startline=text.endline=0
         super text
@@ -43,7 +44,8 @@ class Macro
 
       # Sanity check - make sure this is a valid ParenedNode
       fail unless ParenedNode===text && text.size==1 
-      text=text.body
+  
+      text=text.body #unquote the form
 
       super text
       rebuild_transform
