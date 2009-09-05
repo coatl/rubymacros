@@ -60,6 +60,7 @@ class Macro
       # TODO: this method needs to be better documented/refactored
       @transform=HashLiteralNode[]
       @parameters=[]
+      @parameters.extend RedParse::ListInNode
 
       walkers=proc{|rcvr,wraplayers| #curry
         rcvr.walk{|*args| 
