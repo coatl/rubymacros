@@ -650,7 +650,7 @@ class Macro
        nest=session[:form_nest_level]||1
        carets=0
        node=self
-       while FormParameterNode===node
+       while FormEscapeNode===node
          node=node.text
          carets+=1
        end
@@ -753,7 +753,7 @@ class Macro
       [
         -[KW('macro'), KW(beginsendsmatcher).~.*, KW('end'), KW(/^(do|\{)$/).~.la]>>MisparsedNode
       ]+super+[
-        -[Op('^@'), Expr, lower_op()]>>FormParameterNode,
+        -[Op('^@'), Expr, lower_op()]>>FormEscapeNode,
         -[Op(':@'), (ParenedNode&-{:size=>1})|(VarLikeNode&-{:ident=>"nil"})]>>FormNode,
         -['macro', CallSiteNode, KW(';'),
            Expr.-, RescueNode.*, ElseNode.-, EnsureNode.-,
