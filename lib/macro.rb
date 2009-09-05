@@ -126,9 +126,9 @@ class Macro
   def Macro.quote obj
     #result=
     case obj
-      when Symbol,Numeric: LiteralNode[obj]
-      when true,false,nil: VarLikeNode[obj.inspect]
-      when String: 
+      when Symbol,Numeric; LiteralNode[obj]
+      when true,false,nil; VarLikeNode[obj.inspect]
+      when String
         obj=obj.gsub(/['\\]/){|ch| '\\'+ch }
         StringNode[obj,{:@open=>"'", :@close=>"'"}]
 
