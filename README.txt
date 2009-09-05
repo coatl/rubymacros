@@ -26,10 +26,6 @@ Although in theory already as powerful as lisp macros, the current
 implementation has a number of problems which added together make it merely 
 a proof of concept or toy at this point:
  * pre-processing is very, very slow (because of RedParse)
- * macro calls must be inside some sort of method;
- * straight out macro calls at the top level won't work
- * macros can't have blocks or receivers
- * some ruby syntax is unsupported in files using macros
  * files using macros must be loaded via Macro.require;
  * Kernel#require will not recognize macros
  * macros cannot be scoped
