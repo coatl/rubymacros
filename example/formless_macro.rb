@@ -50,7 +50,7 @@ formless_macro(loop2,[body],
 )
 
 i=0
-loop(
+loop2(
   puts i
   break if (i+=1)>=10
 )
