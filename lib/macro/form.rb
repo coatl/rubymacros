@@ -223,6 +223,10 @@ class Macro
       "^"+val.unparse(o)      
     end
 
+    def lhs_unparse o=default_unparse_options
+      "(^"+val.unparse(o)+")"
+    end
+
     # The number of carats (^) that occur in the escape.  Note that
     # this method is recursive.
     def wraplevel
