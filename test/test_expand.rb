@@ -36,4 +36,38 @@ class ExpandTest < Test::Unit::TestCase
     ttt.macro_expand(Macro::GLOBALS,{})
     assert_equal ttt.unparse,'p((1+2))'
   end
+
+  def test_expands_to_nil
+    Macro.eval "macro nilmacro; nil end"
+    tree=Macro.parse "foo; nilmacro; bar"
+    tree=Macro.expand tree
+    assert RedParse::SequenceNode===tree
+    assert_equal 2, tree.size
+    assert RedParse::CallNode===tree.first
+    assert_equal "foo", tree.first.name
+    assert RedParse::CallNode===tree.last
+    assert_equal "bar", tree.last.name
+   
+    tree=Macro.parse "nilmacro; bar"
+    tree=Macro.expand tree
+    assert RedParse::CallNode===tree
+    assert_equal "bar", tree.name
+   
+    tree=Macro.parse "foo; nilmacro"
+    tree=Macro.expand tree
+    assert RedParse::CallNode===tree
+    assert_equal "foo", tree.name
+   
+    tree=Macro.parse "nilmacro"
+    tree=Macro.expand tree
+    assert RedParse::NopNode===tree
+  end
+
+  def test_unparse_form_escape_on_assign_lhs
+    tree=Macro.parse "^(a)=^b"
+    assert_equal "^(a)=^b", tree.unparse
+
+    tree=Macro.parse '^x,^w, =^y'
+    assert_equal '(^x),(^w), =^y', tree.unparse
+  end
 end
