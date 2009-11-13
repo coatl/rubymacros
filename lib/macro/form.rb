@@ -51,6 +51,21 @@ class Macro
       rebuild_transform
     end
 
+    def initialize_copy other
+      replace other
+      rebuild_transform
+    end
+
+    def _dump depth
+      Marshal.dump text,depth
+    end
+
+    def self._load str
+      result=allocate
+      result.replace [Marshal.load(str)]
+      result.rebuild_transform
+    end
+
     def initialize_ivars
       rebuild_transform
       super
