@@ -375,7 +375,16 @@ class Macro
 
         if newnode
           return newnode unless parent #replacement at top level
-          subi ? parent[i][subi]=newnode : parent[i]=newnode
+          if subi 
+            target,index=parent[i],subi
+          else
+            target,index=parent,i
+          end
+          if NopNode===newnode
+            target.delete_at index
+          else
+            target[index]=newnode
+          end
           fail if recurse
         end 
       else
@@ -505,9 +514,12 @@ class Macro
       #subi ? parent[i][subi]=newnode : parent[i]=newnode
 
       # and keep recursing, no matter what, by all means!!
-      newnode||=NopNode.new
-      newnode=Macro.expand newnode,macros,session #just do it here
-      newnode=OneLineParenedNode[newnode] #disable newlines in macro text
+      if newnode
+        newnode=Macro.expand newnode,macros,session #just do it here
+        newnode=OneLineParenedNode[newnode] #disable newlines in macro text
+      else
+        newnode=NopNode.new
+     end
       return newnode,false                        #and not in caller
     end
   end
