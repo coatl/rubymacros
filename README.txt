@@ -73,7 +73,7 @@ result of an escaped expression (which should be a Node) is interpolated
 into the form at that point. The whole effect is much like that of string
 interpolations (#{}) inside string literals.
 
-== How Macros Work
+== How Macros Work:
 Typically, macros return a single form literal, which contains form escape 
 expressions within it which make use of the macro's parameters. However, 
 macro bodies may contain anything at all; more complicated macros will 
@@ -87,7 +87,23 @@ The parsetrees for the arguments to the callsite are passed as arguments to
 the macro. The macro is expected to return a parsetree, which replaces the 
 macro callsite in the parsetree which contained it. 
 
+=== How to use the examples:
+All the example code in the example/ directory is split into 2 parts; the 
+actual example file itself (say, example/foo.rb) and a wrapper around it
+(say, example/foo_wrap.rb) which requires 'macro' and then Macro.requires 
+the example itself. To run the examples, you should run the _wrap file, not 
+the example file itself. For example, to try out assert.rb, you would 
+issue this command line:
+  ruby example/assert_wrap.rb
+The example wrappers all expect to be run from the main rubymacros 
+directory, not the example/ subdirectory.
 
+I wish this 2-level scheme were not necessary, so that you could directly
+execute a file containing macros, with perhaps a -rmacro preceding it on
+the command line. However, it isn't possible to override how the interpreter
+treats it command line arguments. I would hope that files named on the 
+command line (with or without a -r option) would be pulled in via 
+Kernel#require, but this is not the case.
 
 == Known Problems
  * need to insert extra parens around form params
