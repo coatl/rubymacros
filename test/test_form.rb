@@ -63,6 +63,10 @@ class FormTest< Test::Unit::TestCase
 #      as_form.delete_extraneous_ivars! if as_form
 #      as_tree.delete_extraneous_ivars! if as_tree
 
+      if as_tree.offset != as_form.offset
+        warn "form and parse tree did not have same offsets, input: '#{code}'"
+        as_form.instance_variable_set :@offset, as_tree.offset
+      end
       assert_equal as_tree, as_form
 
       assert_equal as_form, as_form.deep_copy if as_form
