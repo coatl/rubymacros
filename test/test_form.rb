@@ -77,7 +77,7 @@ end
 class FormParameterTest< Test::Unit::TestCase
   DATA=[
     "1", "1.1", "nil", "false", "true",
-    ":sym", "[1,2,3]", "{'a'=>4,:b=>6}", "'s'", 
+    "[1,2,3]", "{'a'=>4,:b=>6}", "'s'", 
   ]
   DIFFICULT_CHILDREN=[
     "RedParse::ConstantNode[nil,'Object']","(a=[];a<<a)"
