@@ -50,11 +50,13 @@ class ExpandTest < Test::Unit::TestCase
    
     tree=Macro.parse "nilmacro; bar"
     tree=Macro.expand tree
+    tree=tree.first if RedParse::SequenceNode===tree and tree.size==1
     assert RedParse::CallNode===tree
     assert_equal "bar", tree.name
    
     tree=Macro.parse "foo; nilmacro"
     tree=Macro.expand tree
+    tree=tree.first if RedParse::SequenceNode===tree and tree.size==1
     assert RedParse::CallNode===tree
     assert_equal "foo", tree.name
    
@@ -64,8 +66,8 @@ class ExpandTest < Test::Unit::TestCase
   end
 
   def test_unparse_form_escape_on_assign_lhs
-    tree=Macro.parse "^(a)=^b"
-    assert_equal "^(a)=^b", tree.unparse
+    tree=Macro.parse "(^a)=^b"
+    assert_equal "(^a)=^b", tree.unparse
 
     tree=Macro.parse '^x,^w, =^y'
     assert_equal '(^x),(^w), =^y', tree.unparse
