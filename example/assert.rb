@@ -29,7 +29,7 @@ def test_assert
   end
 
   begin
-    assert(nil) #oops, fails. msg="expected nil, but was not true"
+    assert(!a) #oops, fails. msg="expected nil, but was not true"
   rescue Exception=>e
     assert("I expected that !a"== e.message) #better be ok
     #ok, that message didn't make a lot of sense...
