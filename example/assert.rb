@@ -6,7 +6,7 @@ macro assert(cond)
         :(fail 'expected '+^left.unparse+"(==#{^left}) to be "+
                ^op+" "+^right.unparse+"(==#{^right})" unless ^cond)    
       else
-        :(fail "expected #{:(^^cond)}, but was not true" unless ^cond)
+        :(fail "I expected that #{:(^^cond)}" unless ^cond)
       end
     end
 end
@@ -31,7 +31,7 @@ def test_assert
   begin
     assert(nil) #oops, fails. msg="expected nil, but was not true"
   rescue Exception=>e
-    assert("expected nil, but was not true"== e.message) #better be ok
+    assert("I expected that !a"== e.message) #better be ok
     #ok, that message didn't make a lot of sense...
   else puts "exception expected but was not seen"
   end
