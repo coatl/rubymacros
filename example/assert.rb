@@ -1,8 +1,8 @@
 #this file uses macros! won't parse in normal ruby
 macro assert(cond)
     if $Debug
-      if RedParse::OpNode===cond and /\A[=!]=\Z/===cond.op
-        left,op,right=*cond
+      if RedParse::OpNode===cond and /\A(?:[=!][=~]|[<>]=?|===)\Z/===cond.op
+        left=cond.left; op=cond.op; right=cond.right
         :(fail 'expected '+^left.unparse+"(==#{^left}) to be "+
                ^op+" "+^right.unparse+"(==#{^right})" unless ^cond)    
       else
