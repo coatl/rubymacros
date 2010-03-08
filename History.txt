@@ -1,4 +1,4 @@
-=== 0.1.5 / 2009-07-04
+=== 0.1.5 / 4jul2009
 * 4 Major Enhancements:
   * all macros are now immediate, not delayed
   * macro calls can accept blocks
@@ -10,18 +10,18 @@
   * forms can now be catenated together with + in the obvious way
   * HashLiteralNode can be treated somewhat like a real hash, using #get
 
-=== 0.1.4 / 2009-05-21
+=== 0.1.4 / 21may2009
 * 1 Major Enhancement:
   * line numbers are now preserved in preprocessed code; 
   *   backtraces should make more sense.
 * 1 Minor Enhancement:
   * updated to keep in sync with the latest RedParse api (sigh)
 
-=== 0.1.3 / 2009-05-02
+=== 0.1.3 / 2may2009
 * 1 Minor Enhancement:
   * depend on redparse>=0.8.1, since 0.8.0 had a stupid permission problem
 
-=== 0.1.2 / 2009-04-26
+=== 0.1.2 / 26apr2009
 * 7 Minor Enhancements
   * lots of nice comments added, thanks to Paul Brannan and Tatsuji Kawai
   * Paul fixed the weird rdoc failure too!
@@ -31,7 +31,7 @@
   * in test_form.rb, don't test deep_copy on nil forms
   * all files should be world-readable now
 
-=== 0.1.0 / 2008-10-24
+=== 0.1.0 / 24oct2008
 * 1 Major Enhancement
   * Birthday!
 
