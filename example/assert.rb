@@ -35,4 +35,6 @@ def test_assert
     #ok, that message didn't make a lot of sense...
   else puts "exception expected but was not seen"
   end
+  
+  puts "all assertions passed"
 end

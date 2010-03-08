@@ -56,3 +56,5 @@ example/unroll_wrap.rb :
 8
 example/with_wrap.rb :
 [999, 3]
+example/assert_wrap.rb :
+all assertions passed
