@@ -1,7 +1,18 @@
 macro inline(method)
+  #block/&param must be re-varified if used more than once
+  #lvar defns in block should be scoped to just the block
+  #maybe block should always remain a proc, rather than inlining it?
+
   #some things aren't supported in inline methods (yet)
-  fail if method.rfind{|n| KWCallNode===n and /^(?:return|redo|retry|yield)$/===n.ident }
-  fail if RedParse::UnaryAmpNode===method.params.last
+  #return|redo|retry|yield keywords, & parameter, and optional args are disallowed
+  fail if method.rfind{|n| RedParse::KWCallNode===n and /^(?:return|redo|retry|yield)$/===n.ident }
+  if params=method.params
+    fail if RedParse::UnaryAmpNode===params.last
+    last_non_star=params.last
+    last_non_star=params[-2] if RedParse::UnaryStarNode===last_non_star
+    fail if RedParse::AssignNode===last_non_star
+  end
+
   result=:(:(inline_self=^receiver; begin end))
   pre=result.val
   body=result.val[-1]
@@ -13,34 +24,44 @@ macro inline(method)
   body.else=method.else
 
   #make a list of known params to inline method
-  params={}
+#  params={}
+  #params should be re-varified to ensure theyre evaled exactly once
+  #without hygienic macros, param names (+inline_self) leak into the caller!
   method.params.each{|param|
     case param
-    when VarNode
-      params[param.name]=1
-      pre.unshift huh
-    when UnaryStarNode,UnAmpNode
-      params[param.val.name]=1
-      pre.unshift huh
-    when AssignNode
-      params[param.left.name]=1
-      pre.unshift huh
+    when RedParse::VarNode
+#      params[param.name]=1
+      pre[0]+= :( :((^^param)=^param) )
+    when RedParse::UnaryStarNode,RedParse::UnAmpNode
+      param=param.val
+#      params[param.name]=1
+      pre[0]+= :( :((^^param)=^param) )
+    when RedParse::AssignNode
+      default=param.right
+      param=param.left
+#      params[param.name]=1
+      pre[0]+= :( :((^^param)=^param||^default) )
     end
-  }
+  } if method.params
 
-  inline_self=VarNode["inline_self"]
+  inline_self=RedParse::VarNode["inline_self"]
 
   result.walk{|parent,i,subi,node|
     newnode=nil
     case node
-    when VarNode
+=begin
+    when RedParse::VarNode
+      #search method for params and escape them
       if params[node.name]
-        huh
+        newnode=FormEscapeNode[node]
       end
+=end
 
-    when VarLikeNode
+    #what to do with receiver? implicit and explicit refs must be replaced
+    when RedParse::VarLikeNode
       newnode=inline_self if node.name=="self"
-      
+    when RedParse::CallNode
+      node.receiver||=inline_self 
 
     end
     if newnode
@@ -52,16 +73,8 @@ macro inline(method)
     end
   }
 
-  huh if method contains a return/redo/retry
-  huh if method contains a yield
-  huh if method contains a &param
-  huh search method for params and escape them
-  huh params should be re-varified to ensure theyre evaled exactly once
-  huh block/&param must be re-varified if used more than once
-  huh lvar defns in block should be scoped to just the block
-  huh maybe block should always remain a proc, rather than inlining it?
-  huh what to do with receiver? implicit and explicit refs must be replaced
-  huh what to do with optional parameters?
 
-  return MacroNode[nil,method.name,method.params,result]
+  result= Macro::MacroNode[nil,method.name,method.params,result]
+  p result.unparse
+  return result
 end
