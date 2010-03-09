@@ -191,13 +191,14 @@ class Macro
     #   RedParse::SomeNodeType[ some transform of code ]
     #
     def parses_like
-      CallSiteNode[CallSiteNode[formname, "reify", [@transform]], "text"]
+      CallSiteNode[CallSiteNode[formname, "reify", [@transform], {:@startline=>@startline}], "text", {:@startline=>@startline}]
       #:(^(formname).reify(^@transform).text)
     end
     
     # Lazily evaluate the name of the form and return it
     def formname
-      @formname ||= ConstantNode[nil,"Macro","Names",::Macro::Names.request(self)]
+      @formname ||= ConstantNode[nil,"Macro","Names",::Macro::Names.request(self), 
+        {:@startline=>@startline,:@endline=>@endline}]
     end
   end
 
