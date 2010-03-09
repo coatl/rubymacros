@@ -380,7 +380,10 @@ class Macro
           else
             target,index=parent,i
           end
-          if NopNode===newnode
+          if NopNode===newnode and 
+            case target.class
+            when UndefNode,AssigneeList,ArrayLiteralNode,SequenceNode,::Array; true
+            end
             target.delete_at index
           else
             target[index]=newnode
