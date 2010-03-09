@@ -97,7 +97,7 @@ class Macro
          case node
          when FormEscapeNode
            target=node.wraplevel
-           fail if wraplayers > target
+           #fail if wraplayers > target
            if wraplayers==target #skip this parameter if it doesn't have enough wrappers
              @parameters << node #remember parameter (and implicitly, location)
 
