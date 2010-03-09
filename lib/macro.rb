@@ -758,7 +758,7 @@ class Macro
         result+=")"
       end
       result+=unparse_nl(body,o)+body.unparse(o) if body
-      result+=rescues.map{|resc| resc.unparse o}.to_s
+      result+=rescues.map{|resc| resc.unparse o}.to_s if rescues
       result+=unparse_nl(else_,o)+"else "+else_.unparse( o )+"\n" if else_
       result+=unparse_nl(ensure_,o)+"ensure "+ensure_.unparse( o )+"\n" if ensure_
       result+=";end"
