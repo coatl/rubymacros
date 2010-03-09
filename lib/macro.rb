@@ -445,7 +445,7 @@ class Macro
         node.rescues.map! &expand if node.rescues
         node.ensure_= expand[node.ensure_]
         node.else_= expand[node.else_]
-        node.eval
+        node.eval(nil,session[:filename])
         macros[name.to_sym]=::Object.method("macro_"+name)
         return node,false
 
