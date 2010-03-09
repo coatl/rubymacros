@@ -54,6 +54,15 @@ example/unroll_wrap.rb :
 6
 7
 8
+1
+2
+3
+4
+5
+6
+7
+8
+9
 example/with_wrap.rb :
 [999, 3]
 example/assert_wrap.rb :
