@@ -769,7 +769,7 @@ class Macro
   class OneLineParenedNode < ParenedNode
     #hacky way to get unparser to not emit newlines in most cases
     #I think this isn't necessary now that forms (and subnodes) have their linenums zeroed on creation
-    def unparse(o=default_parse_options)
+    def unparse(o=default_unparse_options)
       old_linenum=o[:linenum]
       o[:linenum]=2**128
       result=super(o)
