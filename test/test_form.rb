@@ -117,6 +117,11 @@ class FormParameterTest< Test::Unit::TestCase
     }
   end
 
+  def test_escape_from_inner_form
+    Macro.parse ":(:(ielf=^rec))"
+    Macro.eval ":(:(ielf=^rec))"
+  end
+
   def test_marshal_of_form_param_with_hash
 
     #why is this failing??? seems like a marshal bug??
