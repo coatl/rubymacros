@@ -38,9 +38,10 @@ formless_macro(loop,[body],
 
 i=0
 loop(
-  puts i
-  break if (i+=1)>=10
+  print i, ' '
+  break if (i+=1)>=5
 )
+print "\n"
 
 body=nil
 formless_macro(loop2,[body],
@@ -51,6 +52,54 @@ formless_macro(loop2,[body],
 
 i=0
 loop2(
-  puts i
-  break if (i+=1)>=10
+  print i, ' '
+  break if (i+=1)>=5
 )
+print "\n"
+
+macro formless_macro2(name,args=nil)
+  argnames=args.map{|arg|
+    case arg
+    when RedParse::VarNode;  
+      fail if /[A-Z$@]/===arg.name
+      arg
+    when RedParse::CallNode; 
+      fail if /[A-Z$@]/===arg.name
+      fail if arg.receiver or arg.params or arg.block
+      RedParse::VarNode[arg.name]
+    else fail
+    end
+  } if args
+  Macro::MacroNode[nil,name.name,argnames,
+    Macro::FormNode[yield],
+    [],nil,nil
+  ]
+end
+
+formless_macro2(loop3){
+  while true
+    ^yield
+  end
+}
+
+i=0
+loop3{
+  print i, " "
+  break if (i+=1)>=3
+}
+print "\n"
+
+body=nil
+formless_macro2(loop4){
+  while true
+    ^yield
+  end
+}
+
+i=0
+loop4{
+  print i, " "
+  break if (i+=1)>=3
+}
+print "\n"
+
