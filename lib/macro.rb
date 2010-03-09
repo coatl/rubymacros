@@ -160,12 +160,12 @@ class Macro
     return result if result
     result=
     case obj
-      when Symbol,Numeric,true,false,nil: return obj
-      when String: seen[obj.__id__]=obj.dup
-      when Array: 
+      when Symbol,Numeric,true,false,nil; return obj
+      when String; seen[obj.__id__]=obj.dup
+      when Array 
         seen[obj.__id__]=dup=obj.dup
         dup.map!{|x| copy x,seen}
-      when Hash:
+      when Hash
         result={}
         seen[obj.__id__]=result
         obj.each_pair{|k,v| 
@@ -173,7 +173,7 @@ class Macro
         }
         result
       when Module,Proc,IO,Method,
-           UnboundMethod,Thread,Continuation: 
+           UnboundMethod,Thread,Continuation
         return obj
       else
         obj.dup
