@@ -37,7 +37,12 @@ class FormTest< Test::Unit::TestCase
       end
       next
     end
-    define_method "test_form_around_#{x.gsub(/[^ -~]/){|ch| "\\x"+ch[0].to_s(16)}}" do
+    escaped=x.gsub(/[^ -~]/){|ch| 
+      ch=ch[0]
+      ch=ch.getbyte 0 if ch.respond_to? :getbyte
+      "\\x"+ch.to_s(16)
+    }
+    define_method "test_form_around_#{escaped}" do
       check x
     end
   }
