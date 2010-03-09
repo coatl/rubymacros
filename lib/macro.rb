@@ -405,7 +405,7 @@ class Macro
 
         #varargs, &args and receivers are not allowed in macro definitions (yet)
         fail "macro receivers not supported yet" if receiver
-        if Node===args
+        if args
           last=args
 #        else
 #          last=args.last
