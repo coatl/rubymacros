@@ -821,3 +821,19 @@ class Macro
   end
 end
 
+#hacks to allow you to use macros within irb sessions.
+#I wonder how portable this is to rubinius, jruby, mri 1.9, etc
+module IRB
+  class WorkSpace
+    def evaluate(context, statements, file = __FILE__, line = __LINE__)
+      Macro.eval(statements, @binding, file, line)
+    end
+  end
+  ::RubyLex::ENINDENT_CLAUSE<<"macro"
+  module ::RubyToken
+    def_token(:TkMACRO,        TkId,  "macro",    EXPR_FNAME)
+  end
+  def IRB.require(file)
+    Macro.require(file)
+  end
+end if defined? IRB
