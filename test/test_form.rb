@@ -116,4 +116,18 @@ class FormParameterTest< Test::Unit::TestCase
       assert_equal( $b.inspect, $a.inspect) #byaah, not the best way....
     }
   end
+
+  def test_marshal_of_form_param_with_hash
+
+    #why is this failing??? seems like a marshal bug??
+    tree=Macro.parse ":(^{'ffdf'=>4})"
+    assert_nothing_raised{
+      dumped=Marshal.dump tree
+      Marshal.load dumped
+    }
+    assert_nothing_raised{
+      dumped=Marshal.dump tree
+      Marshal.load dumped
+    }
+  end
 end
