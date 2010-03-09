@@ -25,6 +25,7 @@ class Macro
   # The syntax node for forms
   class FormNode < RedParse::ValueNode
     param_names :text
+    alias val text
 
     # Create a new form node.  The user should normally not call this
     # function.  Form nodes are created by the parser.
