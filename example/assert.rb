@@ -2,6 +2,7 @@
 macro assert(cond)
     if $Debug
       if RedParse::OpNode===cond and /\A(?:[=!][=~]|[<>]=?|===)\Z/===cond.op
+        #left,op,right=*cond
         left=cond.left; op=cond.op; right=cond.right
         :(fail 'expected '+^left.unparse+"(==#{^left}) to be "+
                ^op+" "+^right.unparse+"(==#{^right})" unless ^cond)    
@@ -32,7 +33,6 @@ def test_assert
     assert(!a) #oops, fails. msg="expected nil, but was not true"
   rescue Exception=>e
     assert("I expected that !a"== e.message) #better be ok
-    #ok, that message didn't make a lot of sense...
   else puts "exception expected but was not seen"
   end
   
