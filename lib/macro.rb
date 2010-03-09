@@ -416,8 +416,21 @@ class Macro
         #macros can't be settors
         fail "macro settors are not allowed" if /=$/===name
 
+        self.args||=[]
+        args.unshift VarNode.allocate.replace(["receiver"])
+        self.walk{|parent,i,subi,node| #replace self kw in body with receiver var instead
+          if VarLikeNode===node and node.ident=="self"
+            if subi
+              parent[i][subi]=VarNode.allocate.replace(["receiver"])
+            else
+              parent[i]=VarNode.allocate.replace(["receiver"])
+            end
+          end
+          true
+        }
+
           #macro definitions need to be dealt with in 2 steps: registration and activation
-        name=self.name
+#        name=self.name
         self[1]="macro_"+name unless /^macro_/===name
         node=MethodNode[*self]  #convert macro node to a method def node
         huh(node.receiver) if node.receiver
@@ -496,10 +509,10 @@ class Macro
       #if this callsite names a macro, then it is a macro
       #macro=macros[name.to_sym]=::Object.method(macro) if String===macro
       #refuse macro calls with receivers, blocks, varargs, or &args: not supported yet
-      fail "macro receivers not supported yet" if receiver
       fail "macro blocky args not supported yet" if UnOpNode===args.last and args.last.ident=="&@"
       fail "macro varargs calls not supported yet" if UnaryStarNode===args.last
       fail if args.class!=Array
+      args.unshift receiver||VarLikeNode.allocate.replace(["self"])
       if block
         newnode=macro.call *args do |*bparams|
                   if !blockparams
