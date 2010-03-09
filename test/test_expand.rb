@@ -69,7 +69,7 @@ class ExpandTest < Test::Unit::TestCase
     tree=Macro.parse "(^a)=^b"
     assert_equal "(^a)=^b", tree.unparse
 
-    tree=Macro.parse '^x,^w, =^y'
-    assert_equal '(^x),(^w), =^y', tree.unparse
+    tree=Macro.parse '(^x),(^w), =^y'
+    assert_equal '(^x), (^w), =^y', tree.unparse
   end
 end
