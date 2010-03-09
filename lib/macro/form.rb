@@ -66,6 +66,16 @@ class Macro
       result.rebuild_transform
     end
 
+=begin fake _dump/_load, for testing purposes
+    def _dump depth
+      "foobarbaz"
+    end
+
+    def self._load str
+      result=allocate
+    end
+=end
+
     def initialize_ivars
       rebuild_transform
       super
