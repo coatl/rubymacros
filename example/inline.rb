@@ -46,7 +46,7 @@ macro inline(method)
 
   inline_self=RedParse::VarNode["inline_self"]
 
-  result.walk{|parent,i,subi,node|
+  body.walk{|parent,i,subi,node|
     newnode=nil
     case node
     when RedParse::VarNode
