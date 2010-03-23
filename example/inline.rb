@@ -52,7 +52,7 @@ macro inline(method)
     when RedParse::VarNode
       #search method for params and escape them
       if params[node.name]
-        newnode=FormEscapeNode[node]
+        newnode=RedParse::ParenedNode[Macro::FormEscapeNode[node]]
       end
 
     #what to do with receiver? implicit and explicit refs must be replaced
