@@ -26,8 +26,8 @@ macro unroll(loop)
              RedParse::LiteralNode===cond or RedParse::VarLikeNode===cond && "true"==cond.ident
          end
     $LOOP_MULTIPLIER.times {
-      result.body<<chec if chec
-      result.body<<loop.body  
+      result.body<<chec.deep_copy if chec
+      result.body<<loop.body.deep_copy
     }
   when RedParse::CallSiteNode
     fail if loop.block.rfind{|n| RedParse::KWCallNode===n and /^(?:next|redo|retry|break)$/===n.ident }
@@ -39,7 +39,7 @@ macro unroll(loop)
         result=RedParse::SequenceNode[]
         iterations.times{|i|
           result<<:( (^iter_var) = ^i ) if iter_var
-          result<<loop.block
+          result<<loop.block.deep_copy
         }
       else
         iter_var ||= VarNode["ii"]
@@ -47,13 +47,13 @@ macro unroll(loop)
         inner=result.last
         inner.body=RedParse::SequenceNode[]
         $LOOP_MULTIPLIER.times{
-          inner.body<<loop.block
+          inner.body<<loop.block.deep_copy
           inner.body<<:( (^iter_var) += 1 )
         }
         sofar=iterations-iterations%$LOOP_MULTIPLIER
         sofar.upto(iterations-1){|i| 
           result<<:( (^iter_var) = ^i )
-          result<<loop.block
+          result<<loop.block.deep_copy
         }
       end
     else fail
