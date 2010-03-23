@@ -64,7 +64,8 @@ macro unroll(loop)
 end
 
 
-
+warn "these tests need to move to another file (unroll_wrap?) now"
+=begin
 unroll1(1,2,3){|x| p x}
 
 i=1
@@ -80,3 +81,4 @@ unroll 3.times{|i| p i+1 }
 unroll 8.times{|i| p i+1 }
 unroll 9.times{|i| p i+1 }
 
+=end
