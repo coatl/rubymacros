@@ -69,6 +69,7 @@ macro inline(method)
         parent[i]=newnode
       end
     end
+    true
   }
 
 
