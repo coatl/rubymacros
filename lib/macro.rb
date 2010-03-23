@@ -19,6 +19,7 @@
 require 'rubygems'
 require 'redparse'
 require "macro/form"
+require "macro/node"
 require "macro/version"
 
 class Object # :nodoc:
