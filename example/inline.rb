@@ -24,23 +24,23 @@ macro inline(method)
   body.else=method.else
 
   #make a list of known params to inline method
-#  params={}
+  params={}
   #params should be re-varified to ensure theyre evaled exactly once
   #without hygienic macros, param names (+inline_self) leak into the caller!
   method.params.each{|param|
     case param
     when RedParse::VarNode
-#      params[param.name]=1
-      pre[0]+= :( :((^^param)=^param) )
+      params[param.name]=1
+#      pre[0]+= :( :((^^param)=^param) )
     when RedParse::UnaryStarNode,RedParse::UnAmpNode
       param=param.val
-#      params[param.name]=1
-      pre[0]+= :( :((^^param)=^param) )
+      params[param.name]=1
+#      pre[0]+= :( :((^^param)=^param) )
     when RedParse::AssignNode
       default=param.right
       param=param.left
-#      params[param.name]=1
-      pre[0]+= :( :((^^param)=^param||^default) )
+      params[param.name]=1
+#      pre[0]+= :( :((^^param)=^param||^default) )
     end
   } if method.params
 
@@ -49,13 +49,11 @@ macro inline(method)
   result.walk{|parent,i,subi,node|
     newnode=nil
     case node
-=begin
     when RedParse::VarNode
       #search method for params and escape them
       if params[node.name]
         newnode=FormEscapeNode[node]
       end
-=end
 
     #what to do with receiver? implicit and explicit refs must be replaced
     when RedParse::VarLikeNode
