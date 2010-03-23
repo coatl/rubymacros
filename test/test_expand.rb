@@ -19,10 +19,13 @@
 # TODO: add a test for a method definition inside of a method definition
 # to ensure that the inner method definition is properly postponed
 
+$VERBOSE=1
 
 
 require 'test/unit'
 require "macro"
+
+
 class ExpandTest < Test::Unit::TestCase
   def test_simple_expand
     Macro.eval "macro simple(a,b) :(^a+^b) end"
