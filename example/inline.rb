@@ -72,8 +72,8 @@ macro inline(method)
     true
   }
 
+  result.rebuild_transform #shouldn't be needed
 
   result= Macro::MacroNode[nil,method.name,method.params,result]
-  p result.unparse
   return result
 end
