@@ -3,6 +3,7 @@ macro options
   'protected' vs unprotected macros -- params and result surrounded by ()
   precedence for operator macros
   hygienic vs unhygienic
+  simple vs complete?
 
 need to insert extra parens around form params
   except only if it stands in for an rvalue...
