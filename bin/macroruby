@@ -1,0 +1,44 @@
+#!/usr/bin/env ruby
+
+prelude=['require "macro"']
+
+i=0
+while i<ARGV.size
+
+  #end of interpreter options? 
+  break if /\A(?:[^-]|-\z)/===ARGV[i]
+
+  first2=ARGV[i][0...2]
+
+  #input could come from file named w/ -r on cmd line
+  if first2=="-r"
+    #oops, but -r need not be first in a group of flags... perhaps not last either
+    if ARGV[i].size>2
+      prelude<<"Macro.require "+ARGV[i][2..-1].inspect
+    else
+      ARGV[i]=nil
+      prelude<<"Macro.require "+ARGV[i+=1].inspect
+    end
+    ARGV[i]=nil
+  end
+
+  #input could come from -e string on the cmd line
+  huh if first2=="-e"
+
+  i+=1
+end
+
+#input could come from stdin
+if "-"==ARGV[i] or !ARGV[i]
+  huh
+else
+  prelude<<"Macro.load "+ARGV[i].inspect
+end
+ARGV[i]=nil
+
+ARGV.compact!
+
+ARGV.push "-e", prelude.join(';')
+
+p ARGV
+#exec huh,*ARGV #does not return
