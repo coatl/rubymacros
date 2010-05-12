@@ -16,7 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
-require 'rubygems'
+begin require 'rubygems'
+rescue Exception; #do nothing; hope we don't need it
+end
 require 'redparse'
 require "macro/form"
 require "macro/node"
