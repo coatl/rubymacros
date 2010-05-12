@@ -91,8 +91,7 @@ class Macro
       @parameters.extend RedParse::ListInNode
 
       walkers=proc{|rcvr,wraplayers| #curry
-        rcvr.walk{|*args| 
-         node=args.last
+        rcvr.walk{|parent,i,j,node| 
          node.startline=node.endline=0 if node.respond_to? :startline
          case node
          when FormEscapeNode
