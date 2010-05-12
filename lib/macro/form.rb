@@ -222,6 +222,7 @@ class Macro
     # +args+:: TODO
     #
     def initialize(*args)
+      huh if RedParse::UnaryStarNode===args.last
       super(args.last)    
     end
 
