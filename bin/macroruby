@@ -44,7 +44,7 @@ end unless got_e
 
 ARGV.compact!
 
-ARGV.push "-e", prelude.join(';')
+ARGV.push "-e", prelude.join('; ')
 
 p ARGV
 ruby=RbConfig::CONFIG['bindir']+'/'+RbConfig::CONFIG["ruby_install_name"]
