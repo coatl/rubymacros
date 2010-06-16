@@ -782,7 +782,11 @@ class Macro
     end
   end
 
-  class RedParseWithMacros < RedParse
+  module Macro_ParserMixin
+    RedParse.constants.each{|k|
+      const_set k, RedParse::const_get(k)
+    }
+
     def PRECEDENCE
       result=super
       return result.merge({"^@"=>result["+@"]})
@@ -821,6 +825,10 @@ class Macro
       # binary
       @unary_or_binary_op=/^([\^:]|#@unary_or_binary_op)$/o
     end
+  end
+
+  class RedParseWithMacros < RedParse
+    include Macro_ParserMixin
   end
 end
 
