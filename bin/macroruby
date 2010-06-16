@@ -47,4 +47,5 @@ ARGV.compact!
 ARGV.push "-e", prelude.join(';')
 
 p ARGV
-#exec huh,*ARGV #does not return
+ruby=RbConfig::CONFIG['bindir']+'/'+RbConfig::CONFIG["ruby_install_name"]
+#exec ruby,*ARGV #does not return
