@@ -69,9 +69,10 @@ class Macro
     [''].concat($:).each{|pre|
       pre+="/" unless %r{(\A|/)\Z}===pre
       if File.exist? finally=pre+filename
-        code=File.open(finally){|fd| fd.read }
-        #code="::Module.new do\n#{code}\nend\n" if wrap
-        tree=Macro.expand(parse(code,filename),filename)
+        tree=File.open(finally){|code|
+          #code="::Module.new do\n#{code}\nend\n" if wrap
+          Macro.expand(parse(code,finally),filename)
+        }
 
         tree.load filename,wrap
         return true
