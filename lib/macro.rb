@@ -385,7 +385,7 @@ class Macro
             target,index=parent,i
           end
           if NopNode===newnode and 
-            case target.class
+            case target
             when UndefNode,AssigneeList,ArrayLiteralNode,SequenceNode,::Array; true
             end
             target.delete_at index
