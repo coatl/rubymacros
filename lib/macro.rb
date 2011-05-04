@@ -782,6 +782,62 @@ class Macro
       return result
     end
   end
+  class ::RubyLexer
+
+    module MacroMixin
+      #-----------------------------------
+      #def FUNCLIKE_KEYWORDS(orig=nil) #was
+      #  /(?:#{orig||super}|^v$)/
+      #end
+
+      #-----------------------------------
+      def rubylexer_modules_init 
+        super
+      #  @FUNCLIKE_KEYWORDS=FUNCLIKE_KEYWORDS @FUNCLIKE_KEYWORDS unless @FUNCLIKE_KEYWORDS==="v" #was
+      end
+      #def keyword_v(*args,&block) _keyword_funclike(*args,&block) end #was
+
+      #-----------------------------------
+      def method_params?
+        lasttok=last_token_maybe_implicit #last_operative_token
+        return super unless lasttok
+        case lasttok.ident
+        when ';'
+          if VContext===@parsestack.last
+            @parsestack.pop
+            true
+          #else super  #need this here...? I think not ....
+          end
+        when ')'
+          @moretokens<<KeywordToken.new("<doubled-parens>")
+          @parsestack.pop if VContext===@parsestack.last
+          true
+        when '.'
+          true
+        else super
+        end
+      end
+
+      #-----------------------------------
+      def keyword_v(str,offset,result)
+        result[0]=OperatorToken.new("v",offset)
+        @parsestack<<VContext.new(@linenum)
+        return result
+      end
+    end
+
+    module NestedContexts
+      class VContext<NestedContext
+        def initialize(linenum)
+          super("v","",linenum)
+        end
+        def see evt,lexer
+          lexer.parsestack.pop if evt==:semi and lexer.readahead(1)!='('
+        end
+      end
+    end
+
+  end
 
   module Macro_ParserMixin
     RedParse.constants.each{|k|
