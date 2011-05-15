@@ -793,9 +793,17 @@ class Macro
       #-----------------------------------
       def rubylexer_modules_init 
         super
+        
+        @unary_or_binary_chars.add '^'
+        @always_binary_chars.remove '^'
+
       #  @FUNCLIKE_KEYWORDS=FUNCLIKE_KEYWORDS @FUNCLIKE_KEYWORDS unless @FUNCLIKE_KEYWORDS==="v" #was
       end
       #def keyword_v(*args,&block) _keyword_funclike(*args,&block) end #was
+
+      def keyword_macro(*args)
+        keywords_def(*args)
+      end
 
       #-----------------------------------
       def method_params?
