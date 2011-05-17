@@ -832,6 +832,35 @@ class Macro
         @parsestack<<VContext.new(@linenum)
         return result
       end
+
+      #-----------------------------------
+      def symbol_or_op(ch) #is this even needed?
+        startpos= input_position
+        if readahead(2)==":("
+          result= OperatorToken.new(read(1), startpos)
+          result.unary=true
+          return result
+        end
+        super
+      end
+ 
+      #-----------------------------------
+      def caret(ch) #match /^=?/ (^ or ^=) (maybe unary ^ too) #is this even needed?
+        if @last_token_maybe_implicit&&@last_token_maybe_implicit.ident=='(' or 
+          unary_op_expected?(ch)
+          result=OperatorToken.new(read(1),input_position)
+          result.unary=true
+          result
+        else
+          super
+        end
+      end
+
+      #-----------------------------------
+      def callsite_symbol(x) #is this even needed?
+        return if nextchar==?(
+        super
+      end
     end
 
     module NestedContexts
