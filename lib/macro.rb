@@ -476,9 +476,9 @@ class Macro
         #disable postponement (delayed macros) ... i think they're not necessary
         expand=proc{|x| Node===x ? Macro.expand(x,macros,session) : x}
         node.receiver= expand[node.receiver]
-        node.args.map! &expand if node.args
+        node.args.map!( &expand )if node.args
         node.body= expand[node.body]
-        node.rescues.map! &expand if node.rescues
+        node.rescues.map!( &expand )if node.rescues
         node.ensure_= expand[node.ensure_]
         node.else_= expand[node.else_]
         node.eval(nil,session[:filename])
@@ -550,7 +550,7 @@ class Macro
       fail if args.class!=Array
       args.unshift receiver||VarLikeNode.allocate.replace(["self"])
       if block
-        newnode=macro.call *args do |*bparams|
+        newnode=macro.call( *args )do |*bparams|
                   if !blockparams
                     block
                   else
@@ -561,7 +561,7 @@ class Macro
                   end
                 end
       else
-        newnode=macro.call *args
+        newnode=macro.call( *args )
       end
       #subi ? parent[i][subi]=newnode : parent[i]=newnode
 
@@ -583,9 +583,9 @@ class Macro
          session[:@expand_in_defs]=false
            expand=proc{|x| Node===x ? Macro.expand(x,macros,session) : x}
            self.receiver= expand[receiver]
-           args.map! &expand if args
+           args.map!( &expand )if args
            self.body= expand[body]
-           rescues.map! &expand if rescues
+           rescues.map!( &expand )if rescues
            self.ensure_= expand[ensure_]
            self.else_= expand[else_]
          session[:@expand_in_defs]=true
@@ -597,9 +597,9 @@ class Macro
      def macro_expand(macros,session)
        expand=proc{|x| Node===x ? Macro.expand(x,macros,session) : x}
        self.receiver= expand[receiver]
-       args.map! &expand if args
+       args.map!( &expand )if args
        self.body= expand[body]
-       rescues.map! &expand if rescues
+       rescues.map!( &expand )if rescues
        self.ensure_= expand[ensure_]
        self.else_= expand[else_]
        return self,false
@@ -628,7 +628,7 @@ class Macro
         else
           unwind=1
         end
-        session[:@modpath].push *name
+        session[:@modpath].push( *name )
 
         map!{|n| 
             case n
