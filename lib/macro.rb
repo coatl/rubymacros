@@ -945,7 +945,7 @@ class Macro
       return @bem||=/#{super}|^macro$/ 
     end
 
-    def initialize(*args)
+    def initialize(*args,&block)
       super
       @lexer.enable_macros! if @lexer.respond_to? :enable_macros!
 
