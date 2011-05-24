@@ -123,8 +123,9 @@ class Macro
   #binding should default to Binding.of_caller, but byellgch
     
     lvars=binding ? ::Kernel.eval("local_variables()",binding) : []
-    tree=Macro.expand(parse(code,file,line,lvars),file)
-    tree.eval binding||::Object.new_binding,file,line
+    code=Macro.parse(code,file,line,lvars) unless Node===code
+    tree=Macro.expand(code,file)
+    tree.eval binding,file,line
   end
 
   # A helper for Macro.eval which returns a RedParse tree for the given
