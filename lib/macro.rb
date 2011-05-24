@@ -781,7 +781,7 @@ class Macro
     alias ensure_ ensures
     alias ensure ensures
 
-    # Performs the reverse of a parse operation (turns the node into a
+    # Performs the reverse of a parse operation (turns the MacroNode into a
     # string)
     #
     # +o+:: a list of options for unparse
