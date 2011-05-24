@@ -389,7 +389,10 @@ class Macro
     end
     session[:@modpath]||=[]
     session[:filename]||=filename
-    String===tree and tree=parse(tree)
+    filename||="(eval)"
+    case tree
+    when String,IO; tree=parse(tree,filename)
+    end
     fail unless macros.__id__==Macro::GLOBALS.__id__      #for now
     tree.walk{|parent,i,subi,node|
       is_node=Node===node
