@@ -416,9 +416,9 @@ class Macro
           else
             target,index=parent,i
           end
-          if NopNode===newnode and 
+          if NopNode===newnode and target.class==::Array ||
             case target
-            when UndefNode,AssigneeList,ArrayLiteralNode,SequenceNode,::Array; true
+            when UndefNode,AssigneeList,SequenceNode; true
             end
             target.delete_at index
           else
