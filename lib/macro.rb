@@ -734,7 +734,7 @@ class Macro
      end
 
      def image
-        "^"+first.image
+        "^"+body.image
      end
   end
 
