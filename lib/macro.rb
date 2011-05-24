@@ -37,6 +37,7 @@ class Macro
     n=RedParse::const_get(k)
     self::const_set k,n if Module===n and RedParse::Node>=n
   }
+  ListInNode=RedParse::ListInNode #Node helper module
   #...and token classes from RubyLexer
   RubyLexer::constants.each{|k| 
     t=RubyLexer::const_get(k)
