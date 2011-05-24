@@ -956,8 +956,8 @@ class Macro
   end
   Macro_ParserMixin=::RedParse::MacroMixin #old name
 
-    include Macro_ParserMixin
   class ::RedParse::WithMacros < RedParse
+    include ::RedParse::MacroMixin
   end
   RedParseWithMacros=::RedParse::WithMacros #old name
 end
