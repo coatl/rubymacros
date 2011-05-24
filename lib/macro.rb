@@ -485,7 +485,7 @@ class Macro
         node.eval(nil,session[:filename])
         macros[name.to_sym]=::Object.method("macro_"+name)
         return node,false
-
+=begin was
         #node.eval #no, not here....
 
         newnode=Macro.postpone node, session
@@ -509,6 +509,7 @@ class Macro
         #newnode=RedParse::VarLikeNode["nil", {:@value=>false,}]
         #subi ? parent[i][subi]=newnode : parent[i]=newnode          
         return newnode,false #dont keep recursing
+=end
     end
   end
 
