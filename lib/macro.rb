@@ -956,9 +956,10 @@ class Macro
   end
   Macro_ParserMixin=::RedParse::MacroMixin #old name
 
-  class RedParseWithMacros < RedParse
     include Macro_ParserMixin
+  class ::RedParse::WithMacros < RedParse
   end
+  RedParseWithMacros=::RedParse::WithMacros #old name
 end
 
 #hacks to allow you to use macros within irb sessions.
