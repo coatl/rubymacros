@@ -82,6 +82,33 @@ class Macro
     raise LoadError, "no such file to load -- "+filename
   end
 
+  def Macro.delete(name,context=::Object)
+    Thread.current[:Macro_being_undefined]="macro_"+name
+    class<<context; remove_method(Thread.current[:Macro_being_undefined]); end
+    if context==::Object
+      Macro::GLOBALS.delete name.to_sym
+    end
+    Thread.current[:Macro_being_undefined]=nil
+  end
+
+  def Macro.list(*contexts)
+    contexts=[::Object] if contexts.empty?
+    contexts.map{|ctx| ctx.singleton_methods.grep(/\Amacro_/) }.flatten.map{|ctx| ctx.to_s.gsub!(/\Amacro_/,'') }
+  end
+
+  class ::Module
+    def macros
+      Macro.list(self)
+    end
+  end
+
+  def Macro.delete_all!(*contexts)
+    contexts=[::Object] if contexts.empty?
+    contexts.each{|ctx|
+      Macro.list(ctx).each{|mac| Macro.delete mac,ctx }
+    }
+  end
+
   #like Kernel#eval, but allows macros (and forms) as well.
   #beware: default for second argument is currently broken.
   #best practice is to pass an explicit binding (see
