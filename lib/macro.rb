@@ -910,7 +910,7 @@ class Macro
 
   end
 
-  module Macro_ParserMixin
+  module ::RedParse::MacroMixin
     RedParse.constants.each{|k|
       const_set k, RedParse::const_get(k)
     }
@@ -954,6 +954,7 @@ class Macro
       @unary_or_binary_op=/^([\^:]|#@unary_or_binary_op)$/o
     end
   end
+  Macro_ParserMixin=::RedParse::MacroMixin #old name
 
   class RedParseWithMacros < RedParse
     include Macro_ParserMixin
