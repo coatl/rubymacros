@@ -239,7 +239,7 @@ class Macro
   #
   def Macro.postpone node,session
       return node #disable postponement
-
+=begin was
       filename=session[:filename]
       unless session[:@modpath_unsure]
         modpath=ConstantNode[nil,*session[:@modpath]] 
@@ -265,6 +265,7 @@ class Macro
              HashLiteralNode[LiteralNode[:@expand_in_defs], VarLikeNode["true"]], Macro.quote(filename)],
           nil,nil]
       return CallNode[expanded,evalname,[Macro.quote( filename )],nil,nil]
+=end
   end
 
   class Node
