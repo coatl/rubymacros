@@ -945,6 +945,20 @@ class Macro
       return @bem||=/#{super}|^macro$/ 
     end
 
+    def reduce_withs_directory
+      "macro"
+    end
+
+    def rubyoperatorlist
+      super+%w[:@ ^@ v] 
+    end
+
+    def rubykeywordlist
+      super+%w[macro v]
+    end
+
+    def addl_node_containers; [::Macro] end
+
     def initialize(*args,&block)
       super
       @lexer.enable_macros! if @lexer.respond_to? :enable_macros!
