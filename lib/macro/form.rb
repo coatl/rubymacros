@@ -26,6 +26,7 @@ class Macro
   class FormNode < RedParse::ValueNode
     param_names :text
     alias val text
+    alias body text
 
     # Create a new form node.  The user should normally not call this
     # function.  Form nodes are created by the parser.
