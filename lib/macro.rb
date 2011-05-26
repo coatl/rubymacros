@@ -573,7 +573,7 @@ class Macro
         newnode=OneLineParenedNode[newnode] #disable newlines in macro text
       else
         newnode=NopNode.new
-     end
+      end
       return newnode,false                        #and not in caller
     end
   end
