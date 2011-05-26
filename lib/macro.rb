@@ -915,6 +915,19 @@ class Macro
       const_set k, RedParse::const_get(k)
     }
 
+    def redparse_modules_init
+      if defined? @lexer and @lexer.respond_to? :enable_macros!
+        @lexer.enable_macros!
+        @lexer.extend ::RubyLexer::MacroMixin
+        @lexer.rubylexer_modules_init
+      end
+      # binary
+      @unary_or_binary_op=/^([\^:]|#@unary_or_binary_op)$/
+
+
+      super
+    end
+
     def PRECEDENCE
       result=super
       return result.merge({"^@"=>result["+@"]})
@@ -961,11 +974,6 @@ class Macro
 
     def initialize(*args,&block)
       super
-      @lexer.enable_macros! if @lexer.respond_to? :enable_macros!
-
-      # Add ^ to the list of operators that could be either unary or
-      # binary
-      @unary_or_binary_op=/^([\^:]|#@unary_or_binary_op)$/o
     end
   end
   Macro_ParserMixin=::RedParse::MacroMixin #old name
