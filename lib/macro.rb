@@ -943,7 +943,7 @@ class Macro
         -[Op('v'), Expr, ';', KW('(').~.la]>>FormEscapeNode,
         -[Op('v'), Expr, @@soft_nl.la]>>:shift,
         -[Op('^@'), Expr, lower_op()]>>FormEscapeNode,
-        -[Op(':@'), (ParenedNode&-{:size=>1})|(VarLikeNode&-{:ident=>"nil"})]>>FormNode,
+        -[Op(':@'), (ParenedNode&-{:size=>(0..1)})|(SequenceNode&-{:size=>0})]>>FormNode,
         -['macro', CallSiteNode, KW(';'),
            Expr.-, RescueNode.*, ElseNode.-, EnsureNode.-,
           'end'
