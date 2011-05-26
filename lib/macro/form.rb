@@ -57,6 +57,9 @@ class Macro
 
     def initialize_copy other
       replace other
+      other.instance_variables{|v|
+        instance_variable_set v, other.instance_variable_get(v)
+      }
       rebuild_transform
     end
 
