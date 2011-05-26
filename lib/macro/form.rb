@@ -35,6 +35,8 @@ class Macro
     # +text+::  A ParenedNode or VarLikeNode
     #
     def initialize(colon,text)
+      @startline=@endline=nil
+
       # Certain node types need to be quoted
       # (or rather, not unquoted)
       if RedParse::VarLikeNode===text
