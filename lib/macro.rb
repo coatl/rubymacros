@@ -146,7 +146,7 @@ class Macro
     if Binding===lvars
       lvars=eval "local_variables", lvars
     end
-    RedParseWithMacros.new(code,file,line,lvars).parse
+    ::RedParse::WithMacros.new(code,file,line,lvars).parse
   end
 
   UNCOPYABLE= #Symbol|Numeric|true|false|nil|
