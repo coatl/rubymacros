@@ -930,12 +930,18 @@ class Macro
 
     def PRECEDENCE
       result=super
-      return result.merge({"^@"=>result["+@"]})
+      return result.merge({"^@"=>result["+@"], "v"=>result[";"]})
     end
+
     def RULES
+      @@soft_nl||=KW(';')&-{:not_real? =>false}
       [
         -[KW('macro'), KW(beginsendsmatcher).~.*, KW('end'), KW(/^(do|\{)$/).~.la]>>MisparsedNode
       ]+super+[
+        -[Op('v'), Expr, lower_op()]>>FormEscapeNode, 
+        -[Op('v'), Expr, /^;$|^<doubled-parens>$/, '(', Expr.-, ')']>>FormEscapeNode, #constructor needs update
+        -[Op('v'), Expr, ';', KW('(').~.la]>>FormEscapeNode,
+        -[Op('v'), Expr, @@soft_nl.la]>>:shift,
         -[Op('^@'), Expr, lower_op()]>>FormEscapeNode,
         -[Op(':@'), (ParenedNode&-{:size=>1})|(VarLikeNode&-{:ident=>"nil"})]>>FormNode,
         -['macro', CallSiteNode, KW(';'),
