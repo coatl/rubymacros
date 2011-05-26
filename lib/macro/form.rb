@@ -20,7 +20,7 @@
 #$: << "../redparse/lib"
 
 require "redparse"
-require "macro"
+#require "macro"
 class Macro
   # The syntax node for forms
   class FormNode < RedParse::ValueNode
