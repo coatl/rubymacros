@@ -40,16 +40,24 @@ class Macro
       # Certain node types need to be quoted
       # (or rather, not unquoted)
       if RedParse::VarLikeNode===text
+        #this code is dead now, I believe
         @transform=HashLiteralNode[]
+        @stars_transform=HashLiteralNode[]
         text.startline=text.endline=0
         super text
         return
       end
 
+
       # Sanity check - make sure this is a valid ParenedNode
-      fail unless ParenedNode===text && text.size==1 
-  
-      text=text.body #unquote the form
+      if ParenedNode===text && text.size==1 
+        text=text.body #unquote the form
+      elsif text.size==0
+        @transform=HashLiteralNode[]
+        @stars_transform=HashLiteralNode[]
+        super SequenceNode[]
+        return
+      end
 
       super text
       rebuild_transform
@@ -93,6 +101,7 @@ class Macro
     def rebuild_transform
       # TODO: this method needs to be better documented/refactored
       @transform=HashLiteralNode[]
+      @stars_transform=HashLiteralNode[]
       @parameters=[]
       @parameters.extend RedParse::ListInNode
 
@@ -124,8 +133,12 @@ class Macro
       @parameters.each{|orig_escd| 
         escd=orig_escd
         escd=escd.val while FormEscapeNode===escd
-        @transform.push LiteralNode[orig_escd.__id__], escd
-      }    
+        if UnaryStarNode===escd
+          @stars_transform.push LiteralNode[orig_escd.__id__], escd.val
+        else
+          @transform.push LiteralNode[orig_escd.__id__], escd
+        end
+      }
 
       return self
     end
@@ -161,7 +174,9 @@ class Macro
     #
     # +transform+:: the transform to use in the deep copy
     #
-    def reify transform
+    def reify transform, stars_transform
+      transform&&=transform.dup
+      stars_transform&&=stars_transform.dup
       transform.each_pair{|k,v|
         case v
         when Node; next
@@ -170,7 +185,32 @@ class Macro
         end
         transform[k]=v
       }
-      deep_copy(transform)
+      stars_transform.each_pair{|k,v|
+        case v
+        when Symbol; v=CallNode[nil,v.to_s]
+        else v=Macro.quote v
+        end
+        stars_transform[k]=v.extend InlineList
+      }
+      result=deep_copy(transform.merge( stars_transform ))
+      #expand InlineLists somehow
+      result.walk{|parent,i,j,node|
+        if InlineList===node
+          if j
+            parent[i][j,1]=*node
+          else
+            parent[i,1]=*node
+          end
+          nil #halt further recursion
+        else
+          true
+        end
+      } unless stars_transform.empty?
+      
+      return result
+    end
+
+    module InlineList
     end
 
     # Transform this node into a ParseTree parse tree
@@ -207,8 +247,14 @@ class Macro
     #   RedParse::SomeNodeType[ some transform of code ]
     #
     def parses_like
-      CallSiteNode[CallSiteNode[formname, "reify", [@transform], {:@startline=>@startline}], "text", {:@startline=>@startline}]
-      #:(^(formname).reify(^@transform).text)
+      startline=@startline if defined? @startline
+      endline=@endline if defined? @endline
+      ivars={:@startline=>startline, :@endline=>endline}
+      CallSiteNode[
+        CallSiteNode[formname, "reify", [@transform,@stars_transform], ivars], 
+        "text", ivars
+      ]
+      #:(^(formname).reify(^@transform,^@stars_transform).text)
     end
     
     # Lazily evaluate the name of the form and return it
@@ -228,7 +274,6 @@ class Macro
     # +args+:: TODO
     #
     def initialize(*args)
-      huh if RedParse::UnaryStarNode===args.last
       super(args.last)    
     end
 
