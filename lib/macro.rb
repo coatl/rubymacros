@@ -948,7 +948,7 @@ class Macro
            Expr.-, RescueNode.*, ElseNode.-, EnsureNode.-,
           'end'
          ]>>MacroNode,
-        -[ParenedNode, '(', Expr.-, ')', BlockNode.-, KW('do').~.la]>>CallNode,
+        -[ '(', Expr.-, ')', '<doubled-parens>', '(', Expr.-, ')', BlockNode.-, KW('do').~.la]>>CallNode, #constructor needs update
       ]
     end
     def wants_semi_context
