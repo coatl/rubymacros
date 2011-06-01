@@ -938,6 +938,7 @@ class Macro
       [
         -[KW('macro'), KW(beginsendsmatcher).~.*, KW('end'), KW(/^(do|\{)$/).~.la]>>MisparsedNode
       ]+super+[
+        -['<+', Expr, '+>']>>FormEscapeNode, 
         -[Op('v'), Expr, lower_op()]>>FormEscapeNode, 
         -[Op('v'), Expr, /^;$|^<doubled-parens>$/, '(', Expr.-, ')']>>FormEscapeNode, #constructor needs update
         -[Op('v'), Expr, ';', KW('(').~.la]>>FormEscapeNode,
