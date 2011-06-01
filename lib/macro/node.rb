@@ -1,4 +1,5 @@
-class RedParse::Node
+class RedParse
+class Node
   def replace_flow_control(replacer)
     fail "retry is hard! & changes semantics in ruby 1.9" if replacer[:retry]
     return_yield={}
@@ -41,4 +42,5 @@ class RedParse::Node
       end
     }
   end
+end
 end
