@@ -63,6 +63,10 @@ class Macro
       rebuild_transform
     end
 
+    def noinspect_instance_variables
+      %w[@stars_transform @transform]
+    end
+
     def initialize_copy other
       replace other
       other.instance_variables{|v|
