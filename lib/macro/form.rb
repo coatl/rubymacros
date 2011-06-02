@@ -273,12 +273,29 @@ class Macro
     param_names :val
     alias body val
 
-    # Called by the parser to create a new form parameter node.
-    #
-    # +args+:: TODO
-    #
+=begin not needed now?
     def initialize(*args)
       super(args.last)    
+    end
+=end
+    # Called by the parser to create a new form parameter node.
+    #
+    # +args+:: the ^ token (unused), and its argument
+    #
+
+
+    def self.create(*args)
+      v=args.last
+      case v
+      when UndefNode; v=MisparsedNode.new('',v,'')
+      when KeywordToken
+        case v.ident
+        when /\A(?:;|\+>)\z/; v=args[-2]
+        when ')'; huh "v foo;(*params) unhandled yet"
+        else fail
+        end
+      end
+      new v
     end
 
     # Performs the reverse of a parse operation (turns the node into a
