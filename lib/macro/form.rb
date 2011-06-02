@@ -148,7 +148,7 @@ class Macro
     # +block+:: the block to call for each parameter
     #
     def each_parameter(&block)
-      @parameters.each(&block) if @parameters
+      @parameters.each(&block) if defined? @parameters
     end
 
     # Make a deep copy of this form
