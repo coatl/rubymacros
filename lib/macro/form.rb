@@ -271,6 +271,7 @@ class Macro
   # The syntax node for a form escape
   class FormEscapeNode < RedParse::ValueNode
     param_names :val
+    alias body val
 
     # Called by the parser to create a new form parameter node.
     #
