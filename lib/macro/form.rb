@@ -259,8 +259,11 @@ class Macro
     
     # Lazily evaluate the name of the form and return it
     def formname
-      @formname ||= ConstantNode[nil,"Macro","Names",::Macro::Names.request(self), 
-        {:@startline=>@startline,:@endline=>@endline}]
+      startline=@startline if defined? @startline
+      endline=@endline if defined? @endline
+      ivars={:@startline=>startline, :@endline=>endline}
+
+      @formname ||= ConstantNode[nil,"Macro","Names",::Macro::Names.request(self), ivars]
     end
   end
 
