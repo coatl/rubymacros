@@ -33,7 +33,7 @@ class FormTest< Test::Unit::TestCase
 
   EXAMPLES=TestCases::TESTCASES
 
-  EXAMPLES.each_with_index{|x,i|
+  EXAMPLES.uniq.each_with_index{|x,i|
     next if /__END__/===x
     if / \^[^\s]/===x #and x.size>1000
       while x['^']
