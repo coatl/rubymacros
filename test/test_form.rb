@@ -27,6 +27,10 @@ require 'pp'
 
 
 class FormTest< Test::Unit::TestCase
+  def setup
+    Macro.delete_all!
+  end
+
   EXAMPLES=TestCases::TESTCASES
 
   EXAMPLES.each_with_index{|x,i|
