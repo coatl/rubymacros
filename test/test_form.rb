@@ -33,6 +33,11 @@ class FormTest< Test::Unit::TestCase
 
   EXAMPLES=TestCases::TESTCASES
 
+  SLOW=ENV['SLOW']
+
+  warn "some form tests disabled; set SLOW to enable them" unless SLOW
+  warn "some Macro.expand tests disabled; set SLOW to enable them" unless SLOW
+
   EXAMPLES.uniq.each_with_index{|x,i|
     next if /__END__/===x
     if / \^[^\s]/===x #and x.size>1000
@@ -49,7 +54,7 @@ class FormTest< Test::Unit::TestCase
     }
     define_method "test_form_around_#{escaped}" do
       check x
-    end
+    end if SLOW or rand<0.5
   }
 
   def check(code)
