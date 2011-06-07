@@ -96,7 +96,8 @@ class FormTest< Test::Unit::TestCase
       assert_equal as_tree, as_form
 
       assert_equal as_form, as_form.deep_copy if as_form
-    end
+    #end
+  end
   end
 end
 
