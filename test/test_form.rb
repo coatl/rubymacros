@@ -91,6 +91,7 @@ class FormTest< Test::Unit::TestCase
       check_for_syntax_error x,"",""
     end if SLOW or rand<0.5
   }
+  warn "#{__FILE__}:#{__LINE__}: warning: tests of :(^...) and Macro.expand are weak"
 
   def check(code,pre="\n",post="\n")
     #begin
