@@ -58,6 +58,7 @@ class FormTest< Test::Unit::TestCase
       end
       next
     end
+    x.gsub!('v','vv')  #hacky
     escaped=x.gsub(/[^ -~]/){|ch| 
       ch=ch[0]
       ch=ch.getbyte 0 if ch.respond_to? :getbyte
