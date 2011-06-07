@@ -98,6 +98,25 @@ class FormTest< Test::Unit::TestCase
       assert_equal as_form, as_form.deep_copy if as_form
     #end
   end
+  def check_for_syntax_error(code,pre=":(^",post="\n)")
+#      puts code
+      as_form=Macro.expand(pre+code+post)
+
+      assert_equal as_form, as_form.deep_copy
+      assert_unparses_wo_syntax_error(as_form) #weak weak
+  end
+
+  @@auwose=0
+  def assert_unparses_wo_syntax_error(tree) #weak test
+      warn "using assert_unparses_wo_syntax_error, which is weak" if (@@auwose+=1)==1
+      catch(:foo){
+        old_STDERR=$stderr
+        $stderr=open("/dev/null",'w') if File.exist? "/dev/null"
+        begin  
+          eval "BEGIN{throw :foo};"+tree.unparse #weak test
+        ensure $stderr=old_STDERR if File.exist? "/dev/null"
+        end
+      } 
   end
 end
 
