@@ -38,8 +38,19 @@ class FormTest< Test::Unit::TestCase
   warn "some form tests disabled; set SLOW to enable them" unless SLOW
   warn "some Macro.expand tests disabled; set SLOW to enable them" unless SLOW
 
+  nullfile= File.open(File.exist?( "/dev/null" )? "/dev/null" : "dev_null","w")
+
   EXAMPLES.uniq.each_with_index{|x,i|
     next if /__END__/===x
+    begin
+      #old_VERBOSE=$VERBOSE;$VERBOSE=false
+      oldSTDERR=STDERR.dup; STDERR.reopen(nullfile)
+      catch(:foo){ eval "BEGIN{throw :foo};"+x }
+    rescue SyntaxError
+      next
+    #ensure $VERBOSE=old_VERBOSE
+    ensure STDERR.reopen(oldSTDERR)
+    end
     if / \^[^\s]/===x #and x.size>1000
       while x['^']
         warn "disabling tests of '#{x[/^.*\^.*$/]}'"
