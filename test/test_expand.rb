@@ -74,10 +74,10 @@ class ExpandTest < Test::Unit::TestCase
 
   def test_unparse_form_escape_on_assign_lhs
     tree=Macro.parse "(^a)=^b"
-    assert_equal "(^a)=^b", tree.unparse
+    assert_match( /\(\^a\) *= *\^b/, tree.unparse )
 
     tree=Macro.parse '(^x),(^w), =^y'
-    assert_equal '(^x), (^w), =^y', tree.unparse
+    assert_match( /\(\^x\), \(\^w\), *= *\^y/, tree.unparse )
   end
 
   def test_call_method_on_form
