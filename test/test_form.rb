@@ -66,6 +66,29 @@ class FormTest< Test::Unit::TestCase
     define_method "test_form_around_#{escaped}" do
       check x
     end if SLOW or rand<0.5
+    define_method "test_form_and_escape_around_#{escaped}" do
+      if /\A *undef /===x
+        err=RedParse::ParseError
+      end
+      begin
+        check_for_syntax_error x
+      rescue err||NilClass #ignore
+      else fail "#{err} expected, but none occurred"  if err
+      end
+    end if SLOW or rand<0.5 unless /\A\s*(?:=begin|return|next|break)/===x
+    define_method "test_form_and_call_and_escape_around_#{escaped}" do
+      if /\A *undef /===x
+        err=RedParse::ParseError
+      end
+      begin
+        check_for_syntax_error x, ":(foo(^","\n))"
+      rescue err||NilClass #ignore
+      else fail "#{err} expected, but none occurred"  if err
+      end
+    end if SLOW or rand<0.5 unless /\A\s*(?:=begin|return|next|break)/===x
+    define_method "test_Macro.expand_of_#{escaped}" do
+      check_for_syntax_error x,"",""
+    end if SLOW or rand<0.5
   }
 
   def check(code,pre="\n",post="\n")
