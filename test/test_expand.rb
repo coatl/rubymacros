@@ -27,6 +27,10 @@ require "macro"
 
 
 class ExpandTest < Test::Unit::TestCase
+  def setup
+    Macro.delete_all!
+  end
+
   def test_simple_expand
     Macro.eval "macro simple(a,b) :(^a+^b) end"
     ttt=RedParse::CallNode[nil, "p", [RedParse::CallNode[nil, "simple", [RedParse::LiteralNode[1], 

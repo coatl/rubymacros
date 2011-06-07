@@ -3,6 +3,9 @@ require 'macro'
 Macro.require 'example/unroll'
 
 class UnrollTest<Test::Unit::TestCase
+  def setup
+    Macro.delete_all!
+  end
 
   def setup(seed=Time.now.to_i)
     srand(seed)

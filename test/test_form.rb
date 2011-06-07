@@ -146,6 +146,9 @@ class FormTest< Test::Unit::TestCase
 end
 
 class FormParameterTest< Test::Unit::TestCase
+  def setup
+    Macro.delete_all!
+  end
   DATA=[
     "1", "1.1", "nil", "false", "true",
     "[1,2,3]", "{'a'=>4,:b=>6}", "'s'", 
