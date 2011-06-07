@@ -189,6 +189,7 @@ class FormParameterTest< Test::Unit::TestCase
   def test_marshal_of_form_param_with_hash
 
     #why is this failing??? seems like a marshal bug??
+    #seems to be fixed in mri 1.9.2
     tree=Macro.parse ":(^{'ffdf'=>4})"
     assert_nothing_raised{
       dumped=Marshal.dump tree
