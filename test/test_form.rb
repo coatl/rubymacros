@@ -101,7 +101,7 @@ class FormTest< Test::Unit::TestCase
 
       begin  
         as_tree=RedParse.new("  \n"+code).parse
-        as_tree=RedParse::VarLikeNode["nil", {:@value=>nil}] if RedParse::NopNode===as_tree
+        as_tree=RedParse::SequenceNode[] if RedParse::NopNode===as_tree
       rescue Exception=>treeexc
        0
       end
