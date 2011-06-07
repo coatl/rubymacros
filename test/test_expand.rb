@@ -75,4 +75,9 @@ class ExpandTest < Test::Unit::TestCase
     tree=Macro.parse '(^x),(^w), =^y'
     assert_equal '(^x), (^w), =^y', tree.unparse
   end
+
+  def test_call_method_on_form
+    $bar=2
+    assert_operator 0, :<, Macro.eval( ":(foo ^$bar).size" )
+  end
 end
