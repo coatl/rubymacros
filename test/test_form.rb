@@ -68,10 +68,10 @@ class FormTest< Test::Unit::TestCase
     end if SLOW or rand<0.5
   }
 
-  def check(code)
-    begin
+  def check(code,pre="\n",post="\n")
+    #begin
 #      puts code
-      begin  as_form=Macro.eval(":(\n"+code+"\n)")
+      begin  as_form=Macro.eval(":("+pre+code+post+")")
       rescue Exception=>formexc
        0
       end
