@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
   s.description = RubyMacros::Description
   s.homepage = %{http://github.com/coatl/rubymacros}
   s.rubyforge_project = %q{rubymacros}
+  s.license = %q{LGPL-2.1}
 
   s.files = `git ls-files`.split
   s.test_files = %w[test/test_all.rb]
