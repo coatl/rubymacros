@@ -114,7 +114,7 @@ Kernel#require, but this is not the case.
 
 
 == License:
-Copyright (C) 2008  Caleb Clausen
+Copyright (C) 2008, 2016  Caleb Clausen
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by

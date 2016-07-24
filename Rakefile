@@ -1,4 +1,4 @@
-# Copyright (C) 2008  Caleb Clausen
+# Copyright (C) 2008, 2016  Caleb Clausen
 # Distributed under the terms of Ruby's license.
 require 'rubygems'
 require 'hoe'
