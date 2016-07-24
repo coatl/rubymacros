@@ -105,6 +105,17 @@ treats it command line arguments. I would hope that files named on the
 command line (with or without a -r option) would be pulled in via 
 Kernel#require, but this is not the case.
 
+
+== Hacker's guide (well, section)
+If you modify the parse rules (that is, RedParse::MacroMixin#RULES) you will 
+need to recompile them before they will work. To do that, run 'make parser'. 
+This will, unfortunately, take a little while to run. Running 'make parser' 
+will regenerate two files:
+  lib/macro/ReduceWithsFor_RedParse_RedParse__MacroMixin_RedParse__WithMacros_1_8.rb 
+  lib/macro/ReduceWithsFor_RedParse_RedParse__MacroMixin_RedParse__WithMacros_1_9.rb
+which normally come pre-generated with rubymacros.
+
+
 == Known Problems
  * need to insert extra parens around form params
  * a variety of parsetrees are kept around forever for no good reason

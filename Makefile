@@ -18,6 +18,15 @@ name=RubyMacros
 lname=rubymacros
 gemname=rubymacros
 
+lib/macro/ReduceWithsFor_RedParse_RedParse__MacroMixin_RedParse__WithMacros_1_8.rb: lib/macro.rb
+	redparse -r=lib/macro.rb --cache=no -o=lib/macro/ -c WithMacros
+
+lib/macro/ReduceWithsFor_RedParse_RedParse__MacroMixin_RedParse__WithMacros_1_9.rb: lib/macro.rb
+	redparse -r=lib/macro.rb --cache=no -o=lib/macro/ -c 'WithMacros 1.9'
+
+parser: lib/macro/ReduceWithsFor_RedParse_RedParse__MacroMixin_RedParse__WithMacros_1_8.rb lib/macro/ReduceWithsFor_RedParse_RedParse__MacroMixin_RedParse__WithMacros_1_9.rb
+.PHONY: parser
+
 #everything after this line is generic
 
 version=$(shell ruby -r ./lib/$(lname)/version.rb -e "puts $(name)::VERSION")
