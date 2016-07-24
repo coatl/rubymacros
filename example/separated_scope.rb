@@ -29,7 +29,7 @@ macro separated_scope
     ^localnames.uniq.inject(:(nil)){|sum,lvar| 
       RedParse::AssignNode[ RedParse::VarNode[lvar],'=',sum ] 
     }
-    eval local_variables.map{|lvar| lvar+"_="+lvar}.join(';')
+    eval local_variables.map{|lvar| "#{lvar}_ = #{lvar}" }.join(';')
     ^code
   )
 end

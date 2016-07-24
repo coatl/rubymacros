@@ -45,14 +45,14 @@ def test_assert
     assert(a==b) #oops, fails. msg="expected a(==1) to be == b(==2)"
   rescue Exception=>e
     assert("expected a(==1) to be == b(==2)"== e.message) #better be ok
-  else puts "exception expected but was not seen"
+  else fail "exception expected but was not seen"
   end
 
   begin
     assert(!a) #oops, fails. msg="expected nil, but was not true"
   rescue Exception=>e
-    assert("I expected that !a"== e.message) #better be ok
-  else puts "exception expected but was not seen"
+    assert(/^I expected that ! *a$/=== e.message) #better be ok
+  else fail "exception expected but was not seen"
   end
   
   puts "all assertions passed"

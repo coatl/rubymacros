@@ -32,5 +32,5 @@ def user_of_foo
 end
 
 def linenumuser
-  p __LINE__ #should print 17
+  p __LINE__ #should print 35
 end

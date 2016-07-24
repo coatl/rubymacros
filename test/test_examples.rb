@@ -77,7 +77,7 @@ class ExamplesTest<Test::Unit::TestCase
   end
 
   StringNode=RedParse::StringNode
-  can=File.read(example_dir+"/expected_output.txt").split(/^(.*) :\n/)
+  can=File.read(example_dir+"/expected_output.txt").gsub(/^#.*$/,'').split(/^(.*) :\n/)
   can.shift
   #code=:()
 #  warn "unroll example disabled for now"

@@ -35,7 +35,7 @@ example/formless_macro_wrap.rb :
 0 1 2 
 0 1 2 
 example/linenum_wrap.rb :
-17
+35
 example/separated_scope_wrap.rb :
 11
 10
