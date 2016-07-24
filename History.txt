@@ -1,3 +1,113 @@
+=== 0.1.6 / 4apr2012
+* Big things:
+  * allow macros to have receivers
+  * redparse coalescer: coalescer is faster!
+  * nothingness macros:
+    * macros that expand to nil should disappear entirely
+    * except expansion to nothing inside array literal; that makes a nil
+    * NopNode is only deleted in these cases, nilified otherwise:
+      * UndefNode,AssigneeList,ArrayLiteralNode,SequenceNode,ListInNode
+  * 2 new syntaces for form escapes
+* Little things:
+  * allow macros to work in irb!
+  * error msgs from macros now mention original macro source file
+  * importing macro-specific lexer hacks from rubylexer
+  * moving my RedParse extensions into a module
+  * erase linenumbers of nodes interpolated into elsewhere in a parsetree
+  * put correct linenums in nodes inserted in macro expansion
+  * refine detection of unsupported varargs or block
+  * Reg::Formula objs are defanged when quoted
+  * other Reg objects are left untouched when quoted
+  * hacky node class that just wraps a string and unparses to it
+  * fixed warnings
+  * hacky: form escape (troublesome) level of quotitude error check disabled
+* Experimental Changes:
+  * optional, experimental macro_expand of forms inline 
+  * instead of the usual way: deep_copy of a entry from a pre-built table
+* Forms and Form Escapes:
+  * added new keyword op: 'v', like unary caret, but very low precedence
+    * and make sure any inputs with the ident v in them get renamed
+  * added yet another syntax for form escapes, enclosed by <+ and +>
+  * support for the argument of a form escape (^) being a splat expr
+    * (^* is needed so 1 formesc can expand to multiple actual exprs)
+  * added rule for 'doubled parens' 
+    * (where name of called method is in a form esc)
+  * fixed rule for forms to allow nothing between parens
+  * parens around form escapes in lhs is required right now
+* Convenience Apis:
+  * allow 1st arg to Macro.eval to be a Node, was required to be a String
+  * added macro-like things for flow control directives (return, next, etc)
+  * methods for listing and deleting all macros in a module
+  * make array in the lexer parameter slot to constructor work
+  * MacroMixin module can be #extend'd to a parser after it's created
+  * in Macro.expand, input can now be an IO
+  * ListInNode[whatever] now works
+  * filename param to Macro.expand defaults to "(eval)" if not given
+  * renamed classes:
+    * renamed RedParseWithMacros class to RedParse::WithMacros
+    * renamed Macro::Macro_ParserMixin to RedParse::MacroMixin,
+    * always keeping old names as an aliases
+  * rubymacros.rb is an alias for macro.rb
+  * first pass at macroruby cmd-line interpreter 
+    * like ruby but with macros autoenabled
+* Serializing/Copying Objects: marshal unparse pretty_print inspect dup clone
+  * FormNode is now marshalable 
+  * FormNode is now dup/clone-able
+  * make form escape in assign lhs unparse correctly (needs extra parens)
+  * don't panic if no rescues in MacroNode#unparse
+  * shortcut pretty printing of forms and form escapes (and ListInNodes)
+    * when we know it will just be evaled again
+  * pretty up the #inspect output for FormNode
+  * serialization of FormNode via #inspect works better
+* Node Api:
+  * made alias names (#body and #text) for the contents of a form
+  * FormParameterNode renamed to FormEscapeNode
+  * made FormEscapeNode#body alias to #val (contents of form esc)
+  * in FormEscapeNode, prefer #body to #first as the name of the contents
+  * FormEscapeNode#initialize now takes just 1 arg (the expr to escape)
+  * tolerate plain array inside MetaClassNode
+  * FormNode's @parameters should be made into ListInNode
+* Examples:
+  * added a new, more complete unroll implementation
+    * adding 1st pass at handling flow control for some unrolled loops
+    * make deep copies of s-exps duplicated by unroll, 
+      * to ensure the tree doesn't become a dag
+  * improvements to inline
+    * hacky manual rebuild_transform on result of inline macro
+    * walk only part of inline result that contains user's original body
+    * don't stop walking inlined method body early
+    * inlined method params should be parenthesized as well as escaped
+  * improvements to with
+    * reimplemented to take a block instead
+    * an even fancier version uses xform_tree!, 
+      * but that doesnt work yet, so its disabled
+  * improvements to assert
+    * improved wording of assert err msg in non-op case
+    * improved assert's detection of compare operators
+    * new example, simpified version of assert
+  * added another formless_macro implementation
+  * new example, simple forwarding to a method
+    * inspired by roger pack. not working right now 
+  * added a bunch of examples
+* Tests:
+  * define some more mutators of test data
+    * to check for problems with form escs, etc
+  * a test which verifies each example prints its expected output.
+  * delete existing macros before starting various tests
+  * skip form testcases for test data that are not legal ruby
+  * skipping some random selection of slower tests.
+  * add test/ directory to $: for ruby 1.9
+  * warn, not error on diff in just Node#offset after wrapping in a form 
+  * tests of specific features:
+    * first pass at a test for the loop unroller
+    * testing form as receiver of method call seems to work more or less.
+    * test marshaling a particular form that's failing in ruby < 1.9.2
+    * test of escape from inner form
+    * fixed test of second formless macro to actually test the 2nd macro
+    * test macros that expand to nothing 
+    * test form escape on assign lhs
+    * testing assertions work right when disabled as well.
+
 === 0.1.5 / 4jul2009
 * 4 Major Enhancements:
   * all macros are now immediate, not delayed

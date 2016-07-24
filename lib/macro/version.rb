@@ -16,7 +16,4 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
-
-class Macro
-  VERSION="0.1.5"
-end
+require 'rubymacros/version'
