@@ -69,7 +69,14 @@ class ExpandTest < Test::Unit::TestCase
    
     tree=Macro.parse "nilmacro"
     tree=Macro.expand tree
-    assert RedParse::NopNode===tree
+    assert RubyMacros::JustNilNode===tree
+    assert_equal tree.unparse, 'nil'
+
+    tree=Macro.parse "if nilmacro; p :oops; end"
+    tree=Macro.expand tree
+    assert RedParse::IfNode===tree
+    assert RubyMacros::JustNilNode===tree.condition
+    assert_equal  'if nil;p :oops;;end', tree.unparse
   end
 
   def test_unparse_form_escape_on_assign_lhs

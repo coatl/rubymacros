@@ -417,7 +417,7 @@ class Macro
           else
             target,index=parent,i
           end
-          if NopNode===newnode and target.class==::Array ||
+          if JustNilNode===newnode and target.class==::Array ||
             case target
             when UndefNode,AssigneeList,SequenceNode; true
             end
@@ -572,7 +572,7 @@ class Macro
         newnode=Macro.expand newnode,macros,session #just do it here
         newnode=OneLineParenedNode[newnode] #disable newlines in macro text
       else
-        newnode=NopNode.new
+        newnode=JustNilNode.new
       end
       return newnode,false                        #and not in caller
     end
@@ -816,6 +816,13 @@ class Macro
       return result
     end
   end
+
+  class JustNilNode<ValueNode
+    def unparse(o=default_unparse_options)
+      "nil"
+    end
+  end
+
   class ::RubyLexer
 
     module MacroMixin
