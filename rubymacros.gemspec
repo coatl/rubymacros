@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 =begin
     rubymacros - a macro preprocessor for ruby
     Copyright (C) 2008, 2016  Caleb Clausen
@@ -16,7 +17,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
-# -*- encoding: utf-8 -*-
 dir=File.dirname(__FILE__)
 require "#{dir}/lib/rubymacros/version"
 RubyMacros::Description=open("#{dir}/README.txt"){|f| f.read[/^==+ ?description[^\n]*?\n *\n?(.*?\n *\n.*?)\n *\n/im,1] }
